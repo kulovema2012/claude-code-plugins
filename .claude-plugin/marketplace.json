@@ -1,0 +1,15 @@
+{
+  "name": "claude-code-plugins",
+  "description": "Personal Claude Code plugin marketplace — skills and tools for AI-assisted development workflows.",
+  "owner": {
+    "name": "kulovema2012",
+    "url": "https://github.com/kulovema2012"
+  },
+  "plugins": [
+    {
+      "name": "task-service",
+      "source": "./task-service",
+      "description": "Skills for using the task-service MCP tools — task management, session continuity, and decision logging across Claude Code sessions."
+    }
+  ]
+}
