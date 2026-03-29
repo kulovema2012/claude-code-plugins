@@ -56,12 +56,12 @@ Create a task for anything non-trivial: features being built, bugs found along t
 Move tasks through the lifecycle as you work — this syncs with the Kanban dashboard in real time:
 
 ```
-task_update({ id: "<id>", updates: { status: "in_progress" } })
+task_update({ id: "<id>", status: "in_progress" })
 // ... do the work ...
-task_update({ id: "<id>", updates: { status: "completed" } })
+task_update({ id: "<id>", status: "completed" })
 ```
 
-You can update any field: `title`, `description`, `priority`, `tags`.
+You can update any field: `title`, `description`, `priority`, `type`, `tags`.
 
 ### Finding tasks
 
@@ -131,7 +131,7 @@ await decision_log({
 });
 
 // Mark the task done
-await task_update({ id: task.id, updates: { status: "completed" } });
+await task_update({ id: task.id, status: "completed" });
 
 // --- Session end ---
 await session_end({
