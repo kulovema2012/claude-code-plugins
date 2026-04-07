@@ -55,21 +55,27 @@ your-project/
 └── .claude/
     └── plugins/
         └── task-service/           ← copy from extracted ZIP
-            ├── .claude-plugin/
-            │   └── plugin.json
+            ├── plugin.json
             └── skills/
                 └── task-service/
                     └── SKILL.md
 ```
 
-### Option 3: Claude Desktop App (Cowork tab)
+### Option 3: Claude Desktop App (single ZIP — all plugins)
 
 > Requires Pro, Max, Team, or Enterprise plan.
 
-1. [Download the ZIP](https://github.com/kulovema2012/claude-code-plugins/archive/refs/heads/master.zip)
-2. Extract and re-zip the individual plugin folder you want (e.g. `task-service/`)
-3. In Claude desktop app: go to **Customize > Browse plugins**
-4. Upload the ZIP via the custom plugin upload option
+1. Clone or download this repo
+2. From the repo root, create the ZIP:
+
+```bash
+zip -r claude-code-plugins.zip . --exclude ".git/*" --exclude "*.zip"
+```
+
+3. In Claude Desktop: go to **Customize > Browse plugins**
+4. Upload `claude-code-plugins.zip` — installs all plugins at once
+
+The root `plugin.json` acts as the unified manifest. Claude Desktop reads it and registers all skills automatically.
 
 ---
 
@@ -79,18 +85,19 @@ Each plugin lives in its own directory:
 
 ```
 claude-code-plugins/
+├── plugin.json                    # Add new skill entry here too
 ├── .claude-plugin/
-│   └── marketplace.json      ← register new plugins here
+│   └── marketplace.json           # Register new plugin here
 ├── task-service/
-│   ├── .claude-plugin/
-│   │   └── plugin.json
+│   ├── plugin.json
 │   └── skills/
 │       └── task-service/
 │           └── SKILL.md
-└── your-new-plugin/          ← add new plugin here
-    ├── .claude-plugin/
-    │   └── plugin.json
+└── your-new-plugin/               ← add new plugin here
+    ├── plugin.json
     └── skills/
         └── skill-name/
             └── SKILL.md
 ```
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full guide.
