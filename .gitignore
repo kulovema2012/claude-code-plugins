@@ -25,3 +25,6 @@ build/
 
 # Generated ZIPs
 *.zip
+
+# Docs superpowers directory (development only)
+docs/superpowers/
