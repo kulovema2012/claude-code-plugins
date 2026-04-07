@@ -31,19 +31,9 @@ Regardless of the language or framework, you must strictly adhere to the followi
 ### Git Workflow — STRICT ATOMIC PUSHING
 CRITICAL RULE: Every logical change MUST be committed and pushed immediately.
 
-```
-┌─────────────────────────────────────────────────���───────────────┐
-│                    ATOMIC PUSH WORKFLOW                         │
-├─────────────────────────────────────────────────────────────────┤
-│  1. Make ONE logical change (fix bug, add feature, update docs) │
-│  2. Run tests:    uv run pytest  OR  bun test                   │
-│  3. Run linter:   uvx ruff check OR  bunx eslint                │
-│  4. Stage files:  git add <specific-files>                      │
-│  5. Commit:       git commit -m "Emoji type(scope): description"│
-│  6. Push IMMEDIATELY: git push                                  │
-│  7. ONLY THEN move to next task                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
+**Atomic Push Workflow:**
+1. ONE logical change → 2. `uv run pytest` / `bun test` → 3. `uvx ruff check` / `bunx eslint` → 4. `git add <files>` → 5. `git commit -m "Emoji type(scope): msg"` → 6. `git push` → 7. Next task
+
 
 **Violations (NEVER do this):**
 - ❌ Making multiple changes before pushing
