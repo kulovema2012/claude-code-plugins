@@ -2,6 +2,9 @@
   "name": "claude-code-plugins",
   "description": "Personal Claude Code plugin marketplace — skills and tools for AI-assisted development workflows.",
   "version": "1.0.0",
+  "license": "MIT",
+  "repository": "https://github.com/kulovema2012/claude-code-plugins",
+  "keywords": ["claude-code", "plugins", "marketplace", "skills", "ai", "developer-tools"],
   "author": {
     "name": "kulovema2012",
     "url": "https://github.com/kulovema2012"

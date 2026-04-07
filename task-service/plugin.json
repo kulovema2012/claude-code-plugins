@@ -2,6 +2,9 @@
   "name": "task-service",
   "description": "Skills for using the task-service MCP tools — task management, session continuity, and decision logging across Claude Code sessions.",
   "version": "1.0.0",
+  "license": "MIT",
+  "repository": "https://github.com/kulovema2012/claude-code-plugins",
+  "keywords": ["claude-code", "task-management", "mcp", "session-continuity", "decision-logging"],
   "author": {
     "name": "kulovema2012",
     "url": "https://github.com/kulovema2012"
