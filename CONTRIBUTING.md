@@ -41,6 +41,8 @@ Both `plugin.json` files must have identical content.
 
 ### 2. Write both `plugin.json` files
 
+Both files (`.claude-plugin/plugin.json` and root `plugin.json`) must have identical content. Skills are auto-discovered from the `skills/` directory — do not list them here.
+
 ```json
 {
   "name": "your-plugin-name",
@@ -52,14 +54,7 @@ Both `plugin.json` files must have identical content.
   "author": {
     "name": "your-github-username",
     "url": "https://github.com/your-github-username"
-  },
-  "skills": [
-    {
-      "name": "your-plugin-name",
-      "path": "skills/your-plugin-name/SKILL.md",
-      "description": "Detailed trigger description — when should this skill activate?"
-    }
-  ]
+  }
 }
 ```
 

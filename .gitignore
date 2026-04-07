@@ -22,6 +22,7 @@ build/
 .claude/tasks/
 .claude/plans/
 .claude/*.local.*
+CLAUDE.md
 
 # Generated ZIPs
 *.zip

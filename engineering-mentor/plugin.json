@@ -8,12 +8,5 @@
   "author": {
     "name": "kulovema2012",
     "url": "https://github.com/kulovema2012"
-  },
-  "skills": [
-    {
-      "name": "engineering-mentor",
-      "path": "skills/engineering-mentor/SKILL.md",
-      "description": "A proactive engineering mentor that activates during ANY technical decision — coding, system design, tool selection, architecture planning, adding dependencies, choosing patterns, or reviewing approaches."
-    }
-  ]
+  }
 }

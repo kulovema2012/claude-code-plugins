@@ -8,12 +8,5 @@
   "author": {
     "name": "kulovema2012",
     "url": "https://github.com/kulovema2012"
-  },
-  "skills": [
-    {
-      "name": "task-service",
-      "path": "skills/task-service/SKILL.md",
-      "description": "How to use the task-service MCP tools to manage tasks, track project progress, log decisions, and maintain session continuity across Claude Code sessions."
-    }
-  ]
+  }
 }
