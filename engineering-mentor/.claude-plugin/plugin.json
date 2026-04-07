@@ -1,0 +1,19 @@
+{
+  "name": "engineering-mentor",
+  "description": "A proactive engineering mentor that activates during ANY technical decision — coding, system design, tool selection, architecture planning, and more. Interrupts when spotting bad habits or anti-patterns and gives clear best-practice recommendations.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": "https://github.com/kulovema2012/claude-code-plugins",
+  "keywords": ["claude-code", "engineering", "mentor", "best-practices", "anti-patterns", "code-review"],
+  "author": {
+    "name": "kulovema2012",
+    "url": "https://github.com/kulovema2012"
+  },
+  "skills": [
+    {
+      "name": "engineering-mentor",
+      "path": "skills/engineering-mentor/SKILL.md",
+      "description": "A proactive engineering mentor that activates during ANY technical decision — coding, system design, tool selection, architecture planning, adding dependencies, choosing patterns, or reviewing approaches."
+    }
+  ]
+}

@@ -94,7 +94,9 @@ claude-code-plugins/
 │       └── task-service/
 │           └── SKILL.md
 └── your-new-plugin/               ← add new plugin here
-    ├── plugin.json
+    ├── .claude-plugin/
+    │   └── plugin.json            ← required for Claude Code CLI
+    ├── plugin.json                ← required for Claude Desktop ZIP
     └── skills/
         └── skill-name/
             └── SKILL.md

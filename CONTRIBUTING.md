@@ -29,13 +29,17 @@ Use lowercase, hyphen-separated names:
 
 ```
 your-plugin-name/
-├── plugin.json
+├── .claude-plugin/
+│   └── plugin.json    ← required for Claude Code CLI
+├── plugin.json        ← required for Claude Desktop ZIP
 └── skills/
     └── your-plugin-name/
         └── SKILL.md
 ```
 
-### 2. Write `plugin.json`
+Both `plugin.json` files must have identical content.
+
+### 2. Write both `plugin.json` files
 
 ```json
 {
