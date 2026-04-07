@@ -54,7 +54,7 @@ A proactive engineering mentor that activates during any technical decision — 
 your-project/
 └── .claude/
     └── plugins/
-        └── task-service/           ← copy from extracted ZIP
+        └── task-service/           ← copy the plugin folder you want
             ├── plugin.json
             └── skills/
                 └── task-service/
