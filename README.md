@@ -14,6 +14,8 @@ Personal Claude Code plugin marketplace with skills and tools for AI-assisted de
 
 Skills for using the [task-service](https://github.com/kulovema2012/task-service) MCP tools — task management, session continuity, and decision logging across Claude Code sessions.
 
+> **Requires external MCP server.** This plugin provides the skill that instructs Claude how to call `session_start`, `task_create`, `decision_log`, and related tools — but those tools are served by the [task-service MCP server](https://github.com/kulovema2012/task-service), which must be running and connected separately. See that repo for setup instructions.
+
 ```bash
 /plugin install task-service@claude-code-plugins
 ```
