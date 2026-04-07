@@ -10,6 +10,11 @@
       "name": "task-service",
       "source": "./task-service",
       "description": "Skills for using the task-service MCP tools — task management, session continuity, and decision logging across Claude Code sessions."
+    },
+    {
+      "name": "engineering-mentor",
+      "source": "./engineering-mentor",
+      "description": "A proactive engineering mentor that activates during any technical decision — coding, system design, tool selection, architecture planning, and more."
     }
   ]
 }
