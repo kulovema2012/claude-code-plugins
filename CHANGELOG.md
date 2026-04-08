@@ -7,21 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-- `LICENSE` — MIT license
-- `CHANGELOG.md` — version history
-- `CONTRIBUTING.md` — guide for adding new plugins
-- Root `plugin.json` — unified entry point for single-ZIP Claude Desktop install
-- `license`, `repository`, and `keywords` fields to all `plugin.json` files
-
 ### Changed
-- `.gitignore` — expanded to cover secrets, logs, build artifacts, and Claude Code session state
-- `.claude/settings.json` — enable task-service and engineering-mentor plugins locally
-- `README.md` — updated plugin structure example and ZIP install instructions
-- `CLAUDE.md` — trimmed to under 200 lines
+- Consolidated to single root `.claude-plugin/plugin.json` manifest with custom `skills` paths pointing to plugin subdirectories
+- `README.md` — updated structure diagram and local install instructions to use root `--plugin-dir`
+- `CONTRIBUTING.md` — updated to reflect single-manifest workflow
 
 ### Removed
-- Duplicate `.claude-plugin/plugin.json` files from each plugin directory
+- `.claude-plugin/` directories from inside each plugin folder (`task-service/`, `engineering-mentor/`)
+- Root `plugin.json` — moved into `.claude-plugin/plugin.json` per spec
+- `docs/superpowers/` — stale plans from prior refactoring round
 
 ## [1.0.0] - 2026-03-29
 
@@ -31,3 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `.claude-plugin/marketplace.json` — central plugin registry
 - `README.md` — installation instructions and plugin documentation
 - `CLAUDE.md` — principal software engineer persona and execution protocols
+- `LICENSE` — MIT license
+- `CONTRIBUTING.md` — guide for adding new plugins
+- `.claude/settings.json` — project-level plugin enablement

@@ -8,5 +8,9 @@
   "author": {
     "name": "kulovema2012",
     "url": "https://github.com/kulovema2012"
-  }
+  },
+  "skills": [
+    "./task-service/skills/",
+    "./engineering-mentor/skills/"
+  ]
 }

@@ -4,18 +4,18 @@ Thanks for your interest in contributing! This repo is a personal Claude Code pl
 
 ## Repo Structure
 
+Per the [official plugin spec](https://code.claude.com/docs/en/plugins-reference), the repo has a single root manifest that references skill directories across all plugins:
+
 ```
 claude-code-plugins/
-├── plugin.json                    # Unified root manifest (all skills, for single-ZIP install)
 ├── .claude-plugin/
-│   └── marketplace.json           # Plugin registry (lists all plugins)
-├── task-service/                  # One directory per plugin
-│   ├── plugin.json                # Plugin manifest
+│   ├── plugin.json                # Plugin manifest (references all skill paths)
+│   └── marketplace.json           # Marketplace registry
+├── task-service/
 │   └── skills/
 │       └── task-service/
-│           └── SKILL.md           # Skill content
+│           └── SKILL.md
 └── engineering-mentor/
-    ├── plugin.json
     └── skills/
         └── engineering-mentor/
             └── SKILL.md
@@ -23,38 +23,28 @@ claude-code-plugins/
 
 ## Adding a New Plugin
 
-### 1. Create the plugin directory
+### 1. Create the skill directory
 
 Use lowercase, hyphen-separated names:
 
 ```
 your-plugin-name/
-├── .claude-plugin/
-│   └── plugin.json    ← required for Claude Code CLI
-├── plugin.json        ← required for Claude Desktop ZIP
 └── skills/
     └── your-plugin-name/
         └── SKILL.md
 ```
 
-Both `plugin.json` files must have identical content.
+### 2. Add skill path to `.claude-plugin/plugin.json`
 
-### 2. Write both `plugin.json` files
-
-Both files (`.claude-plugin/plugin.json` and root `plugin.json`) must have identical content. Skills are auto-discovered from the `skills/` directory — do not list them here.
+Add your skill directory to the `skills` array:
 
 ```json
 {
-  "name": "your-plugin-name",
-  "description": "One sentence describing what this plugin does.",
-  "version": "1.0.0",
-  "license": "MIT",
-  "repository": "https://github.com/kulovema2012/claude-code-plugins",
-  "keywords": ["claude-code", "relevant", "keywords"],
-  "author": {
-    "name": "your-github-username",
-    "url": "https://github.com/your-github-username"
-  }
+  "skills": [
+    "./task-service/skills/",
+    "./engineering-mentor/skills/",
+    "./your-plugin-name/skills/"
+  ]
 }
 ```
 
@@ -88,25 +78,23 @@ Add an entry to the `plugins` array:
 {
   "name": "your-plugin-name",
   "source": "./your-plugin-name",
-  "description": "Same one-sentence description as plugin.json"
+  "description": "Same one-sentence description as SKILL.md"
 }
 ```
 
-### 5. Register in root `plugin.json`
-
-Add a skill entry to the `skills` array:
-
-```json
-{
-  "name": "your-plugin-name",
-  "path": "your-plugin-name/skills/your-plugin-name/SKILL.md",
-  "description": "Same trigger description as SKILL.md frontmatter"
-}
-```
-
-### 6. Update `CHANGELOG.md`
+### 5. Update `CHANGELOG.md`
 
 Add your plugin under `[Unreleased] > Added`.
+
+### 6. Test locally
+
+Load the plugin to verify it works:
+
+```bash
+claude --plugin-dir .
+```
+
+Test the skill runs correctly and the manifest is valid.
 
 ## Submitting a PR
 
@@ -120,6 +108,5 @@ Add your plugin under `[Unreleased] > Added`.
 | Thing | Convention | Example |
 |-------|------------|---------|
 | Plugin directory | lowercase, hyphens | `code-reviewer` |
-| Plugin name in JSON | same as directory | `"name": "code-reviewer"` |
-| Skill name | same as plugin name | `"name": "code-reviewer"` |
-| SKILL.md location | `skills/<name>/SKILL.md` | `skills/code-reviewer/SKILL.md` |
+| Skill name | same as directory | `"name": "code-reviewer"` |
+| SKILL.md location | `<dir>/skills/<name>/SKILL.md` | `code-reviewer/skills/code-reviewer/SKILL.md` |

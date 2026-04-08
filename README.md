@@ -40,68 +40,47 @@ A proactive engineering mentor that activates during any technical decision — 
 
 ## Installation Options
 
-### Option 1: Claude Code (via plugin command)
+### Option 1: Install from marketplace (recommended)
 
 ```bash
+/plugin marketplace add kulovema2012/claude-code-plugins
 /plugin install task-service@claude-code-plugins
 /plugin install engineering-mentor@claude-code-plugins
 ```
 
-### Option 2: Claude Code (via ZIP download)
+### Option 2: Install from local directory (development)
 
-1. [Download the ZIP](https://github.com/kulovema2012/claude-code-plugins/archive/refs/heads/master.zip)
-2. Extract and copy the plugin folder into your project's `.claude/plugins/` directory:
-
-```
-your-project/
-└── .claude/
-    └── plugins/
-        └── task-service/           ← copy the plugin folder you want
-            ├── plugin.json
-            └── skills/
-                └── task-service/
-                    └── SKILL.md
-```
-
-### Option 3: Claude Desktop App (single ZIP — all plugins)
-
-> Requires Pro, Max, Team, or Enterprise plan.
-
-1. Clone or download this repo
-2. From the repo root, create the ZIP:
+Clone this repo and point Claude Code at the root directory:
 
 ```bash
-zip -r claude-code-plugins.zip . --exclude ".git/*" --exclude "*.zip"
+git clone https://github.com/kulovema2012/claude-code-plugins.git
+claude --plugin-dir ./claude-code-plugins
 ```
 
-3. In Claude Desktop: go to **Customize > Browse plugins**
-4. Upload `claude-code-plugins.zip` — installs all plugins at once
+### Option 3: Install from ZIP
 
-The root `plugin.json` acts as the unified manifest. Claude Desktop reads it and registers all skills automatically.
+1. [Download the ZIP](https://github.com/kulovema2012/claude-code-plugins/archive/refs/heads/master.zip)
+2. Extract and use `--plugin-dir` to load the plugin
 
 ---
 
-## Adding more plugins
+## Plugin Structure
 
-Each plugin lives in its own directory:
+Follows the [official Claude Code plugin spec](https://code.claude.com/docs/en/plugins-reference) with a single root manifest:
 
 ```
 claude-code-plugins/
-├── plugin.json                    # Add new skill entry here too
 ├── .claude-plugin/
-│   └── marketplace.json           # Register new plugin here
+│   ├── plugin.json                # Plugin manifest (references all skill paths)
+│   └── marketplace.json           # Marketplace registry
 ├── task-service/
-│   ├── plugin.json
 │   └── skills/
 │       └── task-service/
 │           └── SKILL.md
-└── your-new-plugin/               ← add new plugin here
-    ├── .claude-plugin/
-    │   └── plugin.json            ← required for Claude Code CLI
-    ├── plugin.json                ← required for Claude Desktop ZIP
+└── engineering-mentor/
     └── skills/
-        └── skill-name/
+        └── engineering-mentor/
             └── SKILL.md
 ```
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full guide.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full guide to adding new plugins.
