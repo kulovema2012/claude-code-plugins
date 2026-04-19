@@ -38,6 +38,27 @@ A proactive engineering mentor that activates during any technical decision — 
 
 ---
 
+### project-boilerplate
+
+Interactive AI tooling scaffolder — generates a complete CLAUDE.md, modular rules, skill/agent catalogs, and plugin settings tailored to your project's stack. Asks 7 questions about your tech stack and generates everything in one command.
+
+```bash
+/plugin install project-boilerplate@claude-code-plugins
+```
+
+**Included skills:**
+- `init-boilerplate` — Interactive generator for project AI tooling (CLAUDE.md + rules + catalogs + settings)
+
+**Supported project types:** Web, Mobile, Data Science/ML, Backend/API, Desktop
+
+**What it generates:**
+- `CLAUDE.md` — Concise root config with `@` imports
+- `.claude/rules/` — 8 rule files (environment, testing, observability, git, tool-selection, project-org, skills-catalog, agents-catalog)
+- `.claude/settings.json` — Recommended plugins for your stack
+- `.claude/skills/engineering-mentor/` — Bundled engineering mentor skill
+
+---
+
 ## Installation Options
 
 ### Option 1: Install from marketplace (recommended)
@@ -71,15 +92,19 @@ Follows the [official Claude Code plugin spec](https://code.claude.com/docs/en/p
 ```
 claude-code-plugins/
 ├── .claude-plugin/
-│   ├── plugin.json                # Plugin manifest (references all skill paths)
-│   └── marketplace.json           # Marketplace registry
+│   ├── plugin.json
+│   └── marketplace.json
 ├── task-service/
 │   └── skills/
 │       └── task-service/
 │           └── SKILL.md
-└── engineering-mentor/
+├── engineering-mentor/
+│   └── skills/
+│       └── engineering-mentor/
+│           └── SKILL.md
+└── project-boilerplate/
     └── skills/
-        └── engineering-mentor/
+        └── project-boilerplate/
             └── SKILL.md
 ```
 

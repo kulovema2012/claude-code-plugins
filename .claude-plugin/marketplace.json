@@ -15,6 +15,11 @@
       "name": "engineering-mentor",
       "source": "./engineering-mentor",
       "description": "A proactive engineering mentor that activates during any technical decision — coding, system design, tool selection, architecture planning, and more."
+    },
+    {
+      "name": "project-boilerplate",
+      "source": "./project-boilerplate",
+      "description": "Interactive AI tooling scaffolder — generates CLAUDE.md, rules, skill/agent catalogs, and plugin settings tailored to your project's stack."
     }
   ]
 }

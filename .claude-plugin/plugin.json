@@ -11,6 +11,7 @@
   },
   "skills": [
     "./task-service/skills/",
-    "./engineering-mentor/skills/"
+    "./engineering-mentor/skills/",
+    "./project-boilerplate/skills/"
   ]
 }

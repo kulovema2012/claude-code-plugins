@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `project-boilerplate` plugin — interactive AI tooling scaffolder that generates CLAUDE.md, rules, skill/agent catalogs, and plugin settings tailored to any project stack
+
 ### Changed
 - Consolidated to single root `.claude-plugin/plugin.json` manifest with custom `skills` paths pointing to plugin subdirectories
 - `README.md` — updated structure diagram and local install instructions to use root `--plugin-dir`
