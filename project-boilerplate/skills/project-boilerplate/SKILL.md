@@ -1,5 +1,6 @@
 ---
 name: init-boilerplate
+version: 1.0.0
 description: >
   Generate a complete AI coding tooling layer for a new project. Invoke when the user wants to
   set up CLAUDE.md, rules, skills catalogs, agent catalogs, and plugin settings for a new or
