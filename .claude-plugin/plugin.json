@@ -12,6 +12,7 @@
   "skills": [
     "./task-service/skills/",
     "./engineering-mentor/skills/",
-    "./project-boilerplate/skills/"
+    "./project-boilerplate/skills/",
+    "./x-twitter-scraper/skills/"
   ]
 }

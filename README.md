@@ -59,6 +59,19 @@ Interactive AI tooling scaffolder — generates a complete CLAUDE.md, modular ru
 
 ---
 
+### x-twitter-scraper
+
+Plan Xquik X/Twitter data workflows for REST API setup, MCP setup, SDKs, webhooks, exports, monitors, and confirmation-gated actions.
+
+```bash
+/plugin install x-twitter-scraper@claude-code-plugins
+```
+
+**Included skills:**
+- `x-twitter-scraper` - Source-backed Xquik workflow planning for app, dashboard, agent, and automation integrations
+
+---
+
 ## Installation Options
 
 ### Option 1: Install from marketplace (recommended)
@@ -67,6 +80,7 @@ Interactive AI tooling scaffolder — generates a complete CLAUDE.md, modular ru
 /plugin marketplace add kulovema2012/claude-code-plugins
 /plugin install task-service@claude-code-plugins
 /plugin install engineering-mentor@claude-code-plugins
+/plugin install x-twitter-scraper@claude-code-plugins
 ```
 
 ### Option 2: Install from local directory (development)
@@ -102,9 +116,13 @@ claude-code-plugins/
 │   └── skills/
 │       └── engineering-mentor/
 │           └── SKILL.md
-└── project-boilerplate/
+├── project-boilerplate/
     └── skills/
         └── project-boilerplate/
+            └── SKILL.md
+└── x-twitter-scraper/
+    └── skills/
+        └── x-twitter-scraper/
             └── SKILL.md
 ```
 
