@@ -1,0 +1,6 @@
+# Local secret values — never commit
+.env.local
+.env.*.local
+
+# Rendered real files (regenerated on install)
+*.rendered
