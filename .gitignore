@@ -24,6 +24,9 @@ build/
 .claude/*.local.*
 CLAUDE.md
 
+# Git worktrees (isolated feature workspaces)
+.claude/worktrees/
+
 # Generated ZIPs
 *.zip
 
