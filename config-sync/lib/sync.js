@@ -5,13 +5,15 @@
 // is set. runSync is the testable core — all I/O deps (fs, log) are injectable;
 // sync.mjs is the thin CLI shim that wires real process state.
 //
-// SAFETY (controller-mandated): template targets are rendered to an IN-MEMORY
-// string and scanned for secrets BEFORE any disk write. A leaking template is
-// never written, so its secret cannot reach a tracked file (no risk of an
-// accidental `git add`). file/dir targets cannot be pre-rendered (a directory
-// copy is opaque), so they are post-write scanned instead; the guard still
-// aborts on residual secrets so a leak is never left silently — but for file/dir
-// the bytes do touch disk first, which is the accepted tradeoff of that path.
+// SAFETY (controller-mandated): EVERY target type is scanned at its SOURCE
+// before any disk write, so a detectable secret can never reach a tracked file:
+//   template -> render to an in-memory string, scan that string, write only if clean.
+//   file/dir -> walk the live source tree (scanTreeLeak), scan each leaf, copy
+//               only if every leaf is clean.
+// In both cases a residual secret (with !refreshSecrets) is collected into
+// `leaked` and the write/copy is skipped, so the secret-bearing bytes never land
+// on disk — no risk of an accidental `git add`. refreshSecrets is the documented
+// escape hatch (write through and report).
 
 import path from 'node:path';
 import { resolveDest } from './manifest.js';
@@ -48,8 +50,34 @@ export function regenerateTemplate(liveText, dest, home) {
   return out;
 }
 
+// Walk a live source tree (mirroring copyTree's traversal) and return scanSecrets
+// findings per leaf file. Used to pre-scan file/dir targets BEFORE any disk write
+// so a leaking source is never copied into the repo.
+async function scanTreeLeak(srcAbs, fs) {
+  const results = [];
+  let stat;
+  try { stat = await fs.lstat(srcAbs); }
+  catch (e) { if (e.code === 'ENOENT') return results; throw e; }
+  if (stat.isDirectory()) {
+    let entries;
+    try { entries = await fs.readdir(srcAbs); }
+    catch (e) { if (e.code === 'ENOENT') return results; throw e; }
+    for (const entry of entries) {
+      const sub = await scanTreeLeak(path.resolve(srcAbs, entry), fs);
+      results.push(...sub);
+    }
+    return results;
+  }
+  let txt;
+  try { txt = await fs.readFile(srcAbs, 'utf8'); }
+  catch (e) { if (e.code === 'ENOENT') return results; throw e; }
+  const found = scanSecrets(txt);
+  if (found.length) results.push({ path: srcAbs, found });
+  return results;
+}
+
 // Reverse-capture entry point. For each manifest target:
-//   file/dir   -> copy live dest into repo src (post-write scan).
+//   file/dir   -> walk live source (scanTreeLeak), copy into repo only if clean.
 //   template   -> read live dest, regenerate, IN-MEMORY pre-scan, write if clean.
 // Returns { actions, leaked }. Throws if any residual secret is detected and
 // refreshSecrets is not set.
@@ -58,17 +86,25 @@ export async function runSync({ manifest, home, repoRoot, fs, log, refreshSecret
   const out = log || (() => {});
   const actions = [];
   const leaked = [];
-  const written = []; // file/dir repo paths queued for post-write scan
 
   for (const t of manifest.targets) {
     const liveAbs = resolveDest(t.dest, home);
     const repoAbs = path.resolve(repoRoot, t.src);
 
     if (t.type === 'file' || t.type === 'dir') {
-      // Reverse copy live -> repo. Post-write scan below catches residual secrets.
+      // SAFETY: walk the live source and scan every leaf BEFORE any disk write.
+      const srcLeaks = await scanTreeLeak(liveAbs, f);
+      if (srcLeaks.length && !refreshSecrets) {
+        for (const s of srcLeaks) leaked.push({ path: s.path, found: s.found });
+        out('skip-leak', liveAbs);
+        continue; // DO NOT copy — secret never reaches a tracked file
+      }
       const sub = await copyTree(liveAbs, repoAbs, { force: true, dryRun, fs: f, log: out });
       actions.push(...sub);
-      if (!dryRun) for (const a of sub) if (a.action === 'write') written.push(a.dest);
+      if (srcLeaks.length) {
+        // refreshSecrets: copy through, but surface the leaks for review.
+        for (const s of srcLeaks) leaked.push({ path: s.path, found: s.found });
+      }
       continue;
     }
 
@@ -90,17 +126,7 @@ export async function runSync({ manifest, home, repoRoot, fs, log, refreshSecret
       await writeText(repoAbs, rendered, { force: true, dryRun, fs: f, log: out });
       actions.push({ action: 'template', dest: repoAbs });
       if (found.length) leaked.push({ path: repoAbs, found }); // refreshSecrets: written + reported
-      // NOTE: intentionally NOT added to `written` — template was pre-scanned;
-      // post-scanning it again would double-count the leak under refreshSecrets.
     }
-  }
-
-  // Post-write guard: scan every file/dir leaf we copied into the repo.
-  for (const p of written) {
-    let txt;
-    try { txt = await f.readFile(p, 'utf8'); } catch { continue; }
-    const found = scanSecrets(txt);
-    if (found.length) leaked.push({ path: p, found });
   }
 
   if (leaked.length && !refreshSecrets) {

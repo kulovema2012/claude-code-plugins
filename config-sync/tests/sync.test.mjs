@@ -29,30 +29,47 @@ test('regenerateTemplate redacts claude settings key', () => {
   expect(out).toContain('{{CLAUDE_API_KEY}}');
 });
 
-// --- runSync: secret guard (safety-critical) ---
+// --- runSync: source-side secret guard (safety-critical) ---
 //
-// Minimal injectable fs. Live files are keyed by path SUFFIX so the same mock
-// works cross-platform (resolveDest yields platform-native paths). `writeFile`
-// records every call so tests can PROVE a leaking template never reached disk.
+// The guard scans every target's SOURCE before any disk write. A detectable
+// secret never reaches a tracked file for any target type (template/file/dir)
+// unless --refresh-secrets is set. Minimal injectable fs: live files are keyed
+// by normalized live paths (forward-slash, drive-stripped); a path is a directory
+// when other entries live beneath it (no marker needed). `writeFile`/`copyFile`
+// are recorded so tests can PROVE a leaking target was never written.
 
 function mockFs(liveFiles) {
-  // Normalize to forward-slash + drive-stripped so the same mock works on win32
-  // (path.resolve yields drive-prefixed backslash paths) and POSIX.
   const norm = p => String(p).replace(/\\/g, '/').replace(/^[A-Za-z]:/, '');
+  const strip = p => p.replace(/\/+$/, '');
+  const entries = Object.entries(liveFiles).map(([k, v]) => [strip(norm(k)), v]);
   const written = new Map();
-  const findLive = key => Object.entries(liveFiles).find(([suf]) => key.endsWith(norm(suf)));
+  const isDir = key => entries.some(([e]) => e.startsWith(strip(key) + '/'));
+  const findFile = key => entries.find(([e]) => e === strip(norm(key)));
   return {
     _written: written,
-    async lstat() { return { isDirectory: () => false }; },
-    async readdir() { return []; },
+    async lstat(p) {
+      const key = strip(norm(p));
+      if (isDir(key)) return { isDirectory: () => true };
+      if (findFile(key)) return { isDirectory: () => false };
+      const err = new Error('ENOENT'); err.code = 'ENOENT'; throw err;
+    },
+    async readdir(p) {
+      const prefix = strip(norm(p)) + '/';
+      const kids = new Set();
+      for (const [e] of entries) if (e.startsWith(prefix)) {
+        const seg = e.slice(prefix.length).split('/')[0];
+        if (seg) kids.add(seg);
+      }
+      return [...kids];
+    },
     async mkdir() {},
-    async copyFile(src, dest) { const e = findLive(norm(src)); written.set(norm(dest), e ? e[1] : ''); },
-    async writeFile(p, c) { written.set(norm(p), c); },
+    async copyFile(src, dest) { const f = findFile(norm(src)); written.set(strip(norm(dest)), f ? f[1] : ''); },
+    async writeFile(p, c) { written.set(strip(norm(p)), c); },
     async readFile(p) {
       const key = norm(p);
-      if (written.has(key)) return written.get(key);
-      const e = findLive(key);
-      if (e) return e[1];
+      if (written.has(strip(key))) return written.get(strip(key));
+      const f = findFile(key);
+      if (f) return f[1];
       const err = new Error('ENOENT'); err.code = 'ENOENT'; throw err;
     },
     async chmod() {},
@@ -67,7 +84,7 @@ test('runSync aborts when a live secret would leak into a template', async () =>
     { src: 'templates/codex/config.toml.tmpl', dest: '~/.codex/config.toml', type: 'template' },
   ]};
   const liveSecret = 'config = { "api_key": "liveplaintextsecret123" }\n';
-  const fs = mockFs({ '.codex/config.toml': liveSecret });
+  const fs = mockFs({ '/h/.codex/config.toml': liveSecret });
   // Act
   let threw = false;
   try { await runSync({ manifest, home: '/h', repoRoot: '/r', fs, refreshSecrets: false }); }
@@ -84,7 +101,7 @@ test('runSync writes a clean template and reports no leaks', async () => {
     { src: 'templates/codex/config.toml.tmpl', dest: '~/.codex/config.toml', type: 'template' },
   ]};
   const live = 'key = "sk-abcd1234567890"\n';
-  const fs = mockFs({ '.codex/config.toml': live });
+  const fs = mockFs({ '/h/.codex/config.toml': live });
   // Act
   const { actions, leaked } = await runSync({ manifest, home: '/h', repoRoot: '/r', fs });
   // Assert — template written, sk- redacted to {{CODEX_API_KEY}}, no residual leak.
@@ -102,7 +119,7 @@ test('runSync refreshSecrets writes the leaking template and reports it', async 
     { src: 'templates/codex/config.toml.tmpl', dest: '~/.codex/config.toml', type: 'template' },
   ]};
   const liveSecret = 'config = { "api_key": "liveplaintextsecret123" }\n';
-  const fs = mockFs({ '.codex/config.toml': liveSecret });
+  const fs = mockFs({ '/h/.codex/config.toml': liveSecret });
   // Act
   const { leaked } = await runSync({ manifest, home: '/h', repoRoot: '/r', fs, refreshSecrets: true });
   // Assert — file WAS written this time (escape hatch) and the leak is reported once.
@@ -111,19 +128,39 @@ test('runSync refreshSecrets writes the leaking template and reports it', async 
   expect([...fs._written.keys()]).toContain('/r/templates/codex/config.toml.tmpl');
 });
 
-test('runSync post-scans file targets and aborts on residual secret', async () => {
-  // Arrange — a `file` target (verbatim copy, no template regeneration) carrying
-  // a raw sk- key. file/dir targets cannot be pre-rendered, so the post-write
-  // guard catches it and refuses the sync (the write happens, but the abort
-  // prevents a silent commit).
+test('runSync pre-scans file targets and skips copy when source leaks', async () => {
+  // Arrange — a `file` target whose LIVE source carries a raw sk- key. The
+  // source-side pre-scan must skip copyTree entirely so the secret never reaches
+  // a tracked file, then abort.
   const manifest = { version: 1, targets: [
     { src: 'static/codex-snippet.sh', dest: '~/.codex/snippet.sh', type: 'file' },
   ]};
-  const fs = mockFs({ '.codex/snippet.sh': 'export KEY=sk-leaked1234567890\n' });
+  const fs = mockFs({ '/h/.codex/snippet.sh': 'export KEY=sk-leaked1234567890\n' });
   // Act
   let threw = false;
   try { await runSync({ manifest, home: '/h', repoRoot: '/r', fs, refreshSecrets: false }); }
   catch { threw = true; }
-  // Assert
+  // Assert — guard fired AND copyTree never ran (no repo file on disk).
   expect(threw).toBe(true);
+  expect(fs._written.size).toBe(0);
+});
+
+test('runSync pre-scans dir targets and skips the whole dir when a leaf leaks', async () => {
+  // Arrange — a `dir` target with one clean leaf and one leaf carrying a
+  // token_field secret. scanTreeLeak must walk every leaf, find the leak, and
+  // skip copying the entire directory so the secret-bearing file is never written.
+  const manifest = { version: 1, targets: [
+    { src: 'static/agents/', dest: '~/.codex/agents/', type: 'dir' },
+  ]};
+  const fs = mockFs({
+    '/h/.codex/agents/a.md': 'just clean markdown, no secrets',
+    '/h/.codex/agents/b.json': '{"api_key": "supersecretvalue123"}',
+  });
+  // Act
+  let threw = false;
+  try { await runSync({ manifest, home: '/h', repoRoot: '/r', fs, refreshSecrets: false }); }
+  catch { threw = true; }
+  // Assert — guard fired AND no leaf of the dir reached disk.
+  expect(threw).toBe(true);
+  expect(fs._written.size).toBe(0);
 });
