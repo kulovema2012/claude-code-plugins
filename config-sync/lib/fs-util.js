@@ -9,7 +9,7 @@ export async function copyTree(srcAbs, destAbs, opts = {}) {
   const actions = [];
   const stat = await fs.lstat(srcAbs);
   if (stat.isDirectory()) {
-    await fs.mkdir(destAbs, { recursive: true });
+    if (!opts.dryRun) await fs.mkdir(destAbs, { recursive: true });
     for (const entry of await fs.readdir(srcAbs)) {
       const sub = await copyTree(resolve(srcAbs, entry), resolve(destAbs, entry), opts);
       actions.push(...sub);
