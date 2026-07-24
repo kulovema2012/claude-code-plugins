@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "targets": [
+    { "src": "home/.claude/statusline.js",                  "dest": "~/.claude/statusline.js",                   "type": "file" },
+    { "src": "home/.claude/hooks",                           "dest": "~/.claude/hooks",                           "type": "dir" },
+    { "src": "home/.claude/skills",                          "dest": "~/.claude/skills",                          "type": "dir" },
+    { "src": "home/.claude/commands",                        "dest": "~/.claude/commands",                        "type": "dir" },
+    { "src": "home/.claude/workflows",                       "dest": "~/.claude/workflows",                       "type": "dir" },
+    { "src": "home/.claude/scripts",                         "dest": "~/.claude/scripts",                         "type": "dir" },
+    { "src": "home/.claude/skill-overrides",                 "dest": "~/.claude/skill-overrides",                 "type": "dir" },
+    { "src": "home/.claude/.remember",                       "dest": "~/.claude/.remember",                       "type": "dir" },
+    { "src": "home/.claude/plugins/installed_plugins.json",  "dest": "~/.claude/plugins/installed_plugins.json",  "type": "file" },
+    { "src": "home/.claude/plugins/known_marketplaces.json", "dest": "~/.claude/plugins/known_marketplaces.json", "type": "file" },
+    { "src": "home/.claude/plugins/blocklist.json",          "dest": "~/.claude/plugins/blocklist.json",          "type": "file" },
+    { "src": "templates/claude/settings.json.tmpl",          "dest": "~/.claude/settings.json",                   "type": "template", "mode": "0600" },
+
+    { "src": "home/.codex/AGENTS.md",        "dest": "~/.codex/AGENTS.md",        "type": "file" },
+    { "src": "home/.codex/hooks.json",       "dest": "~/.codex/hooks.json",       "type": "file" },
+    { "src": "home/.codex/keybindings.json", "dest": "~/.codex/keybindings.json", "type": "file" },
+    { "src": "home/.codex/version.json",     "dest": "~/.codex/version.json",     "type": "file" },
+    { "src": "home/.codex/memories",         "dest": "~/.codex/memories",         "type": "dir" },
+    { "src": "home/.codex/skills",           "dest": "~/.codex/skills",           "type": "dir" },
+    { "src": "home/.codex/rules",            "dest": "~/.codex/rules",            "type": "dir" },
+    { "src": "templates/codex/config.toml.tmpl", "dest": "~/.codex/config.toml",  "type": "template", "mode": "0600" },
+
+    { "src": "home/.agents/skills",            "dest": "~/.agents/skills",            "type": "dir" },
+    { "src": "home/.agents/skills-disabled",   "dest": "~/.agents/skills-disabled",   "type": "dir" },
+    { "src": "home/.agents/.skill-lock.json",  "dest": "~/.agents/.skill-lock.json",  "type": "file" },
+    { "src": "home/.agents/plugins",           "dest": "~/.agents/plugins",           "type": "dir" }
+  ]
+}
