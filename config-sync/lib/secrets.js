@@ -7,7 +7,7 @@ export const SECRET_PATTERNS = [
   { kind: 'bearer',      re: /Bearer\s+[A-Za-z0-9._-]{6,}/g },
   { kind: 'token_field', re: /("(?:token|access_token|refresh_token|id_token|api[_-]?key|secret|client[_-]?secret|password|apikey|oauthToken)"\s*:\s*")[^"]{3,}/gi },
   { kind: 'private_key', re: /BEGIN (?:RSA|EC|OPENSSH|PGP) PRIVATE KEY/g },
-  { kind: 'url_cred',    re: /https?:\/\/[^/\s:@]+:[^/\s:@]+@/ },
+  { kind: 'url_cred',    re: /https?:\/\/[^/\s:@]+:[^/\s:@]+@/g },
 ];
 
 export function scanSecrets(text) {
@@ -18,7 +18,7 @@ export function scanSecrets(text) {
       const pattern = new RegExp(re.source, re.flags);
       let m;
       while ((m = pattern.exec(lines[i])) !== null) {
-        findings.push({ line: i + 1, kind, redacted: m[0].slice(0, 8) + '…' });
+        findings.push({ line: i + 1, kind, redacted: m[0].slice(0, 3) + '…' });
       }
     }
   }
