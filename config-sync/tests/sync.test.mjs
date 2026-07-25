@@ -29,6 +29,33 @@ test('regenerateTemplate redacts claude settings key', () => {
   expect(out).toContain('{{CLAUDE_API_KEY}}');
 });
 
+test('regenerateTemplate redacts escaped-double-backslash home forms (JSON/TOML literals)', () => {
+  // Arrange — JSON/TOML serialize Windows paths with escaped backslashes, so the
+  // file bytes carry C:\\Users\\u (two backslashes per separator). The native
+  // normalizer (single-backslash + forward-slash) misses this form and the
+  // username leaks. home is the os.homedir() value (single backslashes).
+  const home = 'C:\\Users\\u';
+  const live = '"exe": "C:\\\\Users\\\\u\\\\AppData\\\\codex.exe"\n';
+  // Act
+  const out = regenerateTemplate(live, '~/.codex/config.toml', home);
+  // Assert — home redacted, remainder forward-slashed with single slashes.
+  expect(out).toContain('{{HOME}}/AppData/codex.exe');
+  expect(out).not.toContain('Users');
+  expect(out).not.toMatch(/\\\\/);
+});
+
+test('regenerateTemplate redacts lowercase home forms case-insensitively', () => {
+  // Arrange — TOML lowercases drive letters in some keys ([projects."c:\\users\\…"]);
+  // the normalizer must match case-insensitively or these project paths leak.
+  const home = 'C:\\Users\\u';
+  const live = '[projects."c:\\\\users\\\\u\\\\dev\\\\myproj"]\n';
+  // Act
+  const out = regenerateTemplate(live, '~/.codex/config.toml', home);
+  // Assert
+  expect(out).toContain('{{HOME}}/dev/myproj');
+  expect(out).not.toContain('users');
+});
+
 // --- runSync: source-side secret guard (safety-critical) ---
 //
 // The guard scans every target's SOURCE before any disk write. A detectable

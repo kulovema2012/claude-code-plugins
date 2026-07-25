@@ -42,10 +42,21 @@ export function regenerateTemplate(liveText, dest, home) {
     out = out.replace(match, `{{${token}}}`); // global regex -> replaces all occurrences
   }
   if (home) {
-    const variants = new Set([home, home.replace(/\\/g, '/')]);
-    for (const v of variants) out = out.split(v).join('{{HOME}}'); // literal, no regex escaping
-    // Flip backslashes in the path remainder that follows {{HOME}} -> forward slash.
-    out = out.replace(/({{HOME}})(\\[^\s"',}\]]*)/g, (_full, h, rest) => h + rest.replace(/\\/g, '/'));
+    // Match every serialized spelling of the home path: native (C:\Users\u),
+    // forward-slash (C:/Users/u), and JSON/TOML-escaped (C:\\Users\\u) — and the
+    // lowercase of each (TOML lowercases drive letters in some keys). All literal
+    // split/join (regex-safe). Without the escaped + lowercase forms, usernames
+    // and project paths leak into the portable template.
+    const fwd = home.replace(/\\/g, '/');
+    const esc = home.replace(/\\/g, '\\\\');
+    const variants = new Set([
+      home, fwd, esc,
+      home.toLowerCase(), fwd.toLowerCase(), esc.toLowerCase(),
+    ]);
+    for (const v of variants) out = out.split(v).join('{{HOME}}');
+    // Flip backslash RUNS in the path remainder that follows {{HOME}} -> single
+    // forward slash, so escaped `\\` collapses to `/` (not `//`).
+    out = out.replace(/({{HOME}})(\\[^\s"',}\]]*)/g, (_full, h, rest) => h + rest.replace(/\\+/g, '/'));
   }
   return out;
 }
