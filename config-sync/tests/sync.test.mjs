@@ -38,25 +38,29 @@ test('regenerateTemplate redacts claude settings key', () => {
 // when other entries live beneath it (no marker needed). `writeFile`/`copyFile`
 // are recorded so tests can PROVE a leaking target was never written.
 
-function mockFs(liveFiles) {
+function mockFs(liveFiles, links = {}) {
   const norm = p => String(p).replace(/\\/g, '/').replace(/^[A-Za-z]:/, '');
   const strip = p => p.replace(/\/+$/, '');
   const entries = Object.entries(liveFiles).map(([k, v]) => [strip(norm(k)), v]);
+  const linkEntries = Object.entries(links).map(([k, v]) => [strip(norm(k)), norm(v)]);
   const written = new Map();
   const isDir = key => entries.some(([e]) => e.startsWith(strip(key) + '/'));
   const findFile = key => entries.find(([e]) => e === strip(norm(key)));
+  const findLink = key => linkEntries.find(([e]) => e === strip(key));
   return {
     _written: written,
+    _symlinks: [],
     async lstat(p) {
       const key = strip(norm(p));
       if (isDir(key)) return { isDirectory: () => true };
+      if (findLink(key)) return { isDirectory: () => false, isSymbolicLink: () => true };
       if (findFile(key)) return { isDirectory: () => false };
       const err = new Error('ENOENT'); err.code = 'ENOENT'; throw err;
     },
     async readdir(p) {
       const prefix = strip(norm(p)) + '/';
       const kids = new Set();
-      for (const [e] of entries) if (e.startsWith(prefix)) {
+      for (const [e] of [...entries, ...linkEntries]) if (e.startsWith(prefix)) {
         const seg = e.slice(prefix.length).split('/')[0];
         if (seg) kids.add(seg);
       }
@@ -73,6 +77,13 @@ function mockFs(liveFiles) {
       const err = new Error('ENOENT'); err.code = 'ENOENT'; throw err;
     },
     async chmod() {},
+    async readlink(p) {
+      const lk = findLink(strip(norm(p)));
+      if (!lk) { const err = new Error('EINVAL'); err.code = 'EINVAL'; throw err; }
+      return lk[1];
+    },
+    async symlink(target, p) { this._symlinks.push([norm(target), strip(norm(p))]); },
+    async unlink() {},
   };
 }
 
@@ -163,4 +174,60 @@ test('runSync pre-scans dir targets and skips the whole dir when a leaf leaks', 
   // Assert — guard fired AND no leaf of the dir reached disk.
   expect(threw).toBe(true);
   expect(fs._written.size).toBe(0);
+});
+
+// --- Task 10 phase 2a: symlinks-target capture + scan:false exemption ---
+
+test('runSync symlinks target writes a sidecar of home-relative link targets', async () => {
+  // Arrange — ~/.claude/skills is a dir of symlinks INTO ~/.agents/skills.
+  // Capture must readlink each entry, strip the home prefix, and persist the
+  // mapping as a sidecar JSON at the repo src path. No content is copied and
+  // no secret scan runs for this target type.
+  const manifest = { version: 1, targets: [
+    { src: 'home/.claude/skills.links.json', dest: '~/.claude/skills', type: 'symlinks', linkSource: '~/.agents/skills' },
+  ]};
+  const fs = mockFs({},
+    { '/h/.claude/skills/agent-browser': '/h/.agents/skills/agent-browser',
+      '/h/.claude/skills/caveman':       '/h/.agents/skills/caveman' });
+  // Act
+  const { actions, leaked } = await runSync({ manifest, home: '/h', repoRoot: '/r', fs });
+  // Assert — sidecar written with home-relative targets; no leaks scanned.
+  expect(leaked).toEqual([]);
+  const sidecar = JSON.parse(fs._written.get('/r/home/.claude/skills.links.json'));
+  expect(sidecar).toEqual({
+    'agent-browser': '.agents/skills/agent-browser',
+    'caveman':       '.agents/skills/caveman',
+  });
+  expect(actions[0].action).toBe('symlinks');
+});
+
+test('runSync captures a scan:false dir target even when a leaf would trip the guard', async () => {
+  // Arrange — a user-content dir (scan:false) carrying a token_field pattern.
+  // The blocking pre-scan is skipped, so the dir is captured verbatim instead
+  // of being skipped + aborting.
+  const manifest = { version: 1, targets: [
+    { src: 'home/.claude/hooks', dest: '~/.claude/hooks', type: 'dir', scan: false },
+  ]};
+  const fs = mockFs({ '/h/.claude/hooks/hook.js': 'const x = { "api_key": "supersecretvalue123" };' });
+  // Act
+  const { leaked } = await runSync({ manifest, home: '/h', repoRoot: '/r', fs });
+  // Assert — no leak reported (scan skipped) AND the leaf reached disk.
+  expect(leaked).toEqual([]);
+  expect([...fs._written.keys()]).toContain('/r/home/.claude/hooks/hook.js');
+});
+
+test('runSync dir target with skipSymlinks captures real content and drops links', async () => {
+  // Arrange — a mixed dir (one real file + one symlink) captured with scan:false
+  // + skipSymlinks. The real file reaches the repo; the symlink is dropped because
+  // its link structure is captured separately by the paired `symlinks` target.
+  const manifest = { version: 1, targets: [
+    { src: 'home/.claude/skills', dest: '~/.claude/skills', type: 'dir', scan: false, skipSymlinks: true },
+  ]};
+  const fs = mockFs({ '/h/.claude/skills/real.txt': 'data' }, { '/h/.claude/skills/link': '/h/.agents/skills/link' });
+  // Act
+  const { leaked } = await runSync({ manifest, home: '/h', repoRoot: '/r', fs });
+  // Assert — real file captured; no link recreated into the repo.
+  expect(leaked).toEqual([]);
+  expect([...fs._written.keys()]).toContain('/r/home/.claude/skills/real.txt');
+  expect(fs._symlinks).toEqual([]);
 });

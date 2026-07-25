@@ -51,6 +51,22 @@ export async function runInstall({ argv, cwd, home, envFile, fs, stdout }) {
       } else {
         await copyTree(srcAbs, dest, opts);
       }
+    } else if (t.type === 'symlinks') {
+      // Recreate a directory of symlinks captured as a sidecar JSON. Each entry
+      // maps a link name to a home-relative target; resolve target against home
+      // and symlink it under dest. Skip existing links unless --force.
+      const sidecar = JSON.parse(await f.readFile(path.resolve(cwd, t.src), 'utf8'));
+      await f.mkdir(dest, { recursive: true });
+      for (const [linkName, relTarget] of Object.entries(sidecar)) {
+        const linkDest = path.join(dest, linkName);
+        const target = path.join(home, relTarget);
+        let exists = false; try { await f.lstat(linkDest); exists = true; } catch {}
+        if (exists && !opts.force) { opts.log('skip', linkDest); continue; }
+        if (opts.dryRun) { opts.log('link', linkDest); continue; }
+        if (exists) { try { await f.unlink(linkDest); } catch {} }
+        await f.symlink(target, linkDest);
+        opts.log('link', linkDest);
+      }
     } else if (t.type === 'template') {
       const tmpl = await f.readFile(path.resolve(cwd, t.src), 'utf8');
       const { rendered, missing } = renderTemplate(tmpl, placeholders, { allowMissing: opts.allowMissing });

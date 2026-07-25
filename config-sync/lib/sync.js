@@ -92,19 +92,48 @@ export async function runSync({ manifest, home, repoRoot, fs, log, refreshSecret
     const repoAbs = path.resolve(repoRoot, t.src);
 
     if (t.type === 'file' || t.type === 'dir') {
-      // SAFETY: walk the live source and scan every leaf BEFORE any disk write.
-      const srcLeaks = await scanTreeLeak(liveAbs, f);
+      // SAFETY: walk the live source and scan every leaf BEFORE any disk write —
+      // UNLESS the target opts out via scan:false (user content: skills/memories/
+      // hooks), which is captured verbatim and left to the advisory CI scan.
+      const optOut = t.scan === false;
+      const srcLeaks = optOut ? [] : await scanTreeLeak(liveAbs, f);
       if (srcLeaks.length && !refreshSecrets) {
         for (const s of srcLeaks) leaked.push({ path: s.path, found: s.found });
         out('skip-leak', liveAbs);
         continue; // DO NOT copy — secret never reaches a tracked file
       }
-      const sub = await copyTree(liveAbs, repoAbs, { force: true, dryRun, fs: f, log: out });
+      const sub = await copyTree(liveAbs, repoAbs, { force: true, dryRun, fs: f, log: out, skipSymlinks: t.skipSymlinks === true });
       actions.push(...sub);
       if (srcLeaks.length) {
         // refreshSecrets: copy through, but surface the leaks for review.
         for (const s of srcLeaks) leaked.push({ path: s.path, found: s.found });
       }
+      continue;
+    }
+
+    if (t.type === 'symlinks') {
+      // Capture a directory of symlinks INTO a canonical source (linkSource).
+      // For each live entry under dest, readlink and strip the home prefix so the
+      // sidecar stores portable home-relative targets; non-symlink entries are
+      // warned + skipped. The mapping is persisted as a sidecar JSON at repoAbs.
+      // No secret scan runs for this type (links carry no content of their own).
+      let entries;
+      try { entries = await f.readdir(liveAbs); }
+      catch (e) { if (e.code === 'ENOENT') { out('skip-missing', liveAbs); continue; } throw e; }
+      const homePrefix = home.replace(/\\/g, '/') + '/';
+      const mapping = {};
+      for (const entry of entries) {
+        const entryAbs = path.resolve(liveAbs, entry);
+        let st;
+        try { st = await f.lstat(entryAbs); } catch (e) { if (e.code === 'ENOENT') continue; throw e; }
+        if (!(st.isSymbolicLink && st.isSymbolicLink())) { out('skip-notlink', entryAbs); continue; }
+        let target = String(await f.readlink(entryAbs)).replace(/\\/g, '/');
+        if (target.startsWith(homePrefix)) target = target.slice(homePrefix.length);
+        mapping[entry] = target;
+      }
+      const json = JSON.stringify(mapping, null, 2) + '\n';
+      await writeText(repoAbs, json, { force: true, dryRun, fs: f, log: out });
+      actions.push({ action: 'symlinks', dest: repoAbs });
       continue;
     }
 
