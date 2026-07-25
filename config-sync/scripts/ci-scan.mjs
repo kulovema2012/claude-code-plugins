@@ -1,11 +1,12 @@
 // config-sync/scripts/ci-scan.mjs
-// Manifest-aware secret scanner for CI. Loads manifest.json, resolves each
+// Manifest-aware config scanner for CI. Loads manifest.json, resolves each
 // target's repo `src` (dir -> recursive walk; file/template/symlinks -> single
-// file), runs scanSecrets over each, prints `path:line [kind] redacted` for
-// every hit, and exits 1 on any hit. Targets with scan:false (user content:
-// skills/memories/hooks) are SKIPPED — they would drown CI in doc-example false
-// positives. The blocking scan happens at sync time (lib/sync.js) against the
-// LIVE source; this is the belt-and-suspenders check against tracked files.
+// file), runs scanSecrets over each AND scanTomlDuplicates over each .toml,
+// prints `path:line [kind] redacted|key` for every hit, and exits 1 on any hit.
+// Targets with scan:false (user content: skills/memories/hooks) are SKIPPED —
+// they would drown CI in doc-example false positives. The blocking scan happens
+// at sync time (lib/sync.js) against the LIVE source; this is the
+// belt-and-suspenders check against tracked files.
 //
 // Invoked from the repo root as: `bun config-sync/scripts/ci-scan.mjs`.
 // Self-locating via import.meta.url so cwd is irrelevant.
@@ -14,6 +15,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { loadManifest } from '../lib/manifest.js';
 import { scanSecrets } from '../lib/secrets.js';
+import { scanTomlDuplicates } from '../lib/toml-check.js';
 
 // Resolve the on-disk files a manifest target contributes to the scan. `dir`
 // walks recursively; every other type maps to a single file (templates are
@@ -63,6 +65,14 @@ export async function runCiScan({ manifestPath, fs, log }) {
       for (const h of scanSecrets(txt)) {
         findings.push({ path: file, line: h.line, kind: h.kind, redacted: h.redacted });
       }
+      // Structural check: duplicate keys in a tracked .toml (e.g. codex's
+      // [hooks.state] corruption) break the consumer on load. Tagged
+      // dup_table/dup_scalar so findings are distinct from secret kinds.
+      if (file.endsWith('.toml')) {
+        for (const d of scanTomlDuplicates(txt)) {
+          findings.push({ path: file, line: d.line, kind: `dup_${d.kind}`, key: d.key });
+        }
+      }
     }
   }
   return findings;
@@ -80,14 +90,14 @@ export async function main() {
   let bad = 0;
   for (const fnd of findings) {
     const rel = path.relative(repoRoot, fnd.path).replace(/\\/g, '/');
-    console.log(`${rel}:${fnd.line} [${fnd.kind}] ${fnd.redacted}`);
+    console.log(`${rel}:${fnd.line} [${fnd.kind}] ${fnd.redacted ?? fnd.key}`);
     bad++;
   }
   if (bad) {
-    console.error(`\nSecret scan FAILED: ${bad} hit(s) in scanned manifest targets.`);
+    console.error(`\nConfig scan FAILED: ${bad} finding(s) in scanned manifest targets (secrets or duplicate TOML keys).`);
     process.exit(1);
   }
-  console.log('Secret scan OK: 0 hits across scanned manifest targets.');
+  console.log('Config scan OK: 0 findings across scanned manifest targets.');
   process.exit(0);
 }
 

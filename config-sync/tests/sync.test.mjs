@@ -203,6 +203,51 @@ test('runSync pre-scans dir targets and skips the whole dir when a leaf leaks', 
   expect(fs._written.size).toBe(0);
 });
 
+// --- structural guard: refuse to capture a broken TOML template ---
+
+test('runSync skips capture of a config.toml with duplicate keys (non-blocking) and reports it', async () => {
+  // Arrange — live config.toml carrying codex's hooks.state duplicate-key
+  // corruption (single-quote vs double-quote headers define the SAME TOML key).
+  // The structural guard must skip writing the template so the tracked file
+  // keeps its last-good content — WITHOUT aborting the whole sync (unlike a
+  // secret leak, a structural break is non-blocking: other targets still proceed).
+  const manifest = { version: 1, targets: [
+    { src: 'templates/codex/config.toml.tmpl', dest: '~/.codex/config.toml', type: 'template' },
+  ]};
+  const dup = (q) =>
+    `[hooks.state.'C:/u/.codex/hooks.json:${q}']\nenabled = true\n` +
+    `[hooks.state."C:/u/.codex/hooks.json:${q}"]\nenabled = true\n`;
+  const live = `model = "x"\n` + dup('pre_tool_use:0:0');
+  const fs = mockFs({ '/h/.codex/config.toml': live });
+  // Act
+  const { actions, structIssues } = await runSync({ manifest, home: '/h', repoRoot: '/r', fs });
+  // Assert — no throw, template NOT written, one structural issue with one table finding.
+  expect(actions).toEqual([]);
+  expect(structIssues.length).toBe(1);
+  expect(structIssues[0].findings.length).toBe(1);
+  expect(structIssues[0].findings[0].kind).toBe('table');
+  expect(fs._written.size).toBe(0);
+});
+
+test('runSync captures a structurally clean multi-table config.toml normally', async () => {
+  // Arrange — valid TOML with several distinct [hooks.state.*] tables and no
+  // duplicates. The structural guard must not false-positive and the template
+  // must be written.
+  const manifest = { version: 1, targets: [
+    { src: 'templates/codex/config.toml.tmpl', dest: '~/.codex/config.toml', type: 'template' },
+  ]};
+  const live =
+    '[hooks.state."C:/u/.codex/hooks.json:pre_tool_use:0:0"]\nenabled = true\n' +
+    '[hooks.state."C:/u/.codex/hooks.json:post_tool_use:0:0"]\nenabled = true\n';
+  const fs = mockFs({ '/h/.codex/config.toml': live });
+  // Act
+  const { actions, structIssues } = await runSync({ manifest, home: '/h', repoRoot: '/r', fs });
+  // Assert — captured (action recorded), no structural issue, written to disk.
+  expect(structIssues).toEqual([]);
+  expect(actions[0].action).toBe('template');
+  expect([...fs._written.keys()]).toContain('/r/templates/codex/config.toml.tmpl');
+});
+
 // --- Task 10 phase 2a: symlinks-target capture + scan:false exemption ---
 
 test('runSync symlinks target writes a sidecar of home-relative link targets', async () => {

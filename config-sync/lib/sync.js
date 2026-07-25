@@ -19,6 +19,7 @@ import path from 'node:path';
 import { resolveDest } from './manifest.js';
 import { copyTree, writeText } from './fs-util.js';
 import { scanSecrets } from './secrets.js';
+import { scanTomlDuplicates } from './toml-check.js';
 
 // Per-dest redaction rules. Keys are manifest `dest` values. Applied BEFORE home
 // normalization. Only well-known high-signal patterns are mapped here; anything
@@ -97,6 +98,7 @@ export async function runSync({ manifest, home, repoRoot, fs, log, refreshSecret
   const out = log || (() => {});
   const actions = [];
   const leaked = [];
+  const structIssues = []; // TOML files skipped for duplicate keys (non-blocking)
 
   for (const t of manifest.targets) {
     const liveAbs = resolveDest(t.dest, home);
@@ -155,6 +157,20 @@ export async function runSync({ manifest, home, repoRoot, fs, log, refreshSecret
 
       const rendered = regenerateTemplate(liveText, t.dest, home);
 
+      // STRUCTURE: refuse to capture a structurally broken TOML template (e.g.
+      // codex's duplicate [hooks.state] keys). Skip-write + report so the tracked
+      // template keeps its last-good content; other targets still sync. Checked
+      // before the secret scan because a non-parsing file is broken regardless of
+      // secret status. Non-blocking by design — a structural break is not a leak.
+      if (t.dest.endsWith('.toml')) {
+        const dups = scanTomlDuplicates(rendered);
+        if (dups.length) {
+          structIssues.push({ path: repoAbs, dest: t.dest, findings: dups });
+          out('skip-struct', repoAbs);
+          continue; // DO NOT write — broken structure never reaches a tracked file
+        }
+      }
+
       // SAFETY: scan the rendered string IN MEMORY before any disk write.
       const found = scanSecrets(rendered);
       if (found.length && !refreshSecrets) {
@@ -173,5 +189,5 @@ export async function runSync({ manifest, home, repoRoot, fs, log, refreshSecret
     const detail = leaked.map(l => `${l.path}: ${l.found.map(x => x.kind).join(',')}`).join('\n');
     throw new Error(`Refusing to sync — residual secret(s) detected. Review TEMPLATE_RULES or re-run with --refresh-secrets only if intentional:\n${detail}`);
   }
-  return { actions, leaked };
+  return { actions, leaked, structIssues };
 }

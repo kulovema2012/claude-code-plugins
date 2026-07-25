@@ -58,3 +58,31 @@ test('runCiScan returns no findings when the scanned set is clean', async () => 
   // Assert — no findings; the hooks dir walk ran (no exceptions) and found nothing.
   expect(findings).toEqual([]);
 });
+
+test('runCiScan flags duplicate keys in a tracked .toml target (the merge gate)', async () => {
+  // Arrange — a tracked config.toml carrying codex's duplicate [hooks.state]
+  // headers (single-quote vs double-quote = same TOML key), twice over. This is
+  // the belt-and-suspenders gate: even if a broken template slipped past capture,
+  // CI must surface it so it can't merge.
+  const root = mkdtempSync(join(tmpdir(), 'ciscan-toml-'));
+  const dup = (q) =>
+    `[hooks.state.'C:/u/.codex/hooks.json:${q}']\nenabled = true\n` +
+    `[hooks.state."C:/u/.codex/hooks.json:${q}"]\nenabled = true\n`;
+  writeFileSync(join(root, 'config.toml'), `model = "x"\n` + dup('pre_tool_use:0:0') + dup('stop:0:0'));
+  writeFileSync(join(root, 'manifest.json'), JSON.stringify({
+    version: 1,
+    targets: [
+      { src: 'config.toml', dest: '~/.codex/config.toml', type: 'template' },
+    ],
+  }));
+  // Act
+  const findings = await runCiScan({ manifestPath: join(root, 'manifest.json'), fs });
+  // Assert — two table-duplicate findings (one per repeated key), tagged dup_table
+  // so they're distinct from secret kinds, each with a line number and normalized key.
+  const tomFinds = findings.filter((f) => f.kind === 'dup_table');
+  expect(tomFinds.length).toBe(2);
+  expect(tomFinds.every((f) => typeof f.line === 'number')).toBe(true);
+  expect(tomFinds.every((f) => f.key && f.key.startsWith('hooks.state.'))).toBe(true);
+  // No secret false positives on the TOML content.
+  expect(findings.some((f) => f.redacted !== undefined)).toBe(false);
+});

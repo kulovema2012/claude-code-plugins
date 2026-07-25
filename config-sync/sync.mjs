@@ -18,7 +18,7 @@ export async function main() {
   const fsp = await import('node:fs/promises');
   const manifest = await loadManifest(path.join(HERE, 'manifest.json'), fsp);
   try {
-    const { actions, leaked } = await runSync({
+    const { actions, leaked, structIssues } = await runSync({
       manifest,
       home: os.homedir(),
       repoRoot: HERE,
@@ -28,6 +28,13 @@ export async function main() {
       dryRun: argv.includes('--dry-run'),
     });
     console.log(`\nSynced ${actions.length} entr${actions.length === 1 ? 'y' : 'ies'}.`);
+    if (structIssues.length) {
+      console.log(`Warning: ${structIssues.length} TOML file(s) skipped due to duplicate keys (tracked template left unchanged):`);
+      for (const s of structIssues) {
+        for (const fnd of s.findings) console.log(`  ${s.dest}:${fnd.line} [${fnd.kind}] ${fnd.key}`);
+      }
+      console.log('Fix the live file (remove the duplicate keys) and re-run sync.');
+    }
     if (leaked.length) console.log(`Note: ${leaked.length} file(s) contained residual secrets (--refresh-secrets used).`);
   } catch (e) {
     console.error(e.message);
