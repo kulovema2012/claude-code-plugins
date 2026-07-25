@@ -1,0 +1,270 @@
+export const meta = {
+  name: 'comprehensive-research',
+  description: 'Run source-backed, multi-lens research for design, product, engineering, strategy, or implementation work',
+  whenToUse: 'Before making decisions or implementing work that benefits from current examples, best practices, risks, and evidence',
+  phases: [
+    { title: 'Scope' },
+    { title: 'Research' },
+    { title: 'Critique', model: 'haiku' },
+    { title: 'Synthesize' },
+  ],
+}
+
+const input = typeof args === 'string'
+  ? (() => { try { return JSON.parse(args) } catch { return args } })()
+  : args
+
+const brief = typeof input === 'string'
+  ? { task: input }
+  : (input || {})
+
+const task = brief.task || brief.goal || brief.prompt || 'Research the topic comprehensively and produce an actionable briefing.'
+const context = brief.context || ''
+const audience = brief.audience || 'the person or AI agent doing the work'
+const deliverable = brief.deliverable || 'an actionable research briefing'
+const constraints = Array.isArray(brief.constraints) ? brief.constraints : []
+const successCriteria = Array.isArray(brief.successCriteria) ? brief.successCriteria : []
+const requestedLenses = Array.isArray(brief.lenses) ? brief.lenses : []
+const sourceExpectations = brief.sourceExpectations || 'Prefer current primary sources, official documentation, reputable expert writing, real product examples, and clearly dated material when recency matters.'
+
+const SCOPE_SCHEMA = {
+  type: 'object',
+  required: ['taskRestatement', 'researchQuestions', 'lensPlan'],
+  properties: {
+    taskRestatement: { type: 'string' },
+    assumptions: { type: 'array', items: { type: 'string' } },
+    researchQuestions: { type: 'array', items: { type: 'string' } },
+    lensPlan: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['key', 'title', 'question', 'method'],
+        properties: {
+          key: { type: 'string' },
+          title: { type: 'string' },
+          question: { type: 'string' },
+          method: { type: 'string' },
+          sourceTargets: { type: 'array', items: { type: 'string' } },
+        },
+      },
+    },
+  },
+}
+
+const RESEARCH_SCHEMA = {
+  type: 'object',
+  required: ['lensKey', 'summary', 'findings', 'recommendations'],
+  properties: {
+    lensKey: { type: 'string' },
+    summary: { type: 'string' },
+    searchLog: { type: 'array', items: { type: 'string' } },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['title', 'locator', 'whyItMatters'],
+        properties: {
+          title: { type: 'string' },
+          locator: { type: 'string' },
+          date: { type: 'string' },
+          sourceType: { type: 'string' },
+          whyItMatters: { type: 'string' },
+        },
+      },
+    },
+    examples: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'whatToStudy'],
+        properties: {
+          name: { type: 'string' },
+          locator: { type: 'string' },
+          whatToStudy: { type: 'string' },
+          transferablePattern: { type: 'string' },
+        },
+      },
+    },
+    findings: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['claim', 'evidence', 'confidence', 'implication'],
+        properties: {
+          claim: { type: 'string' },
+          evidence: { type: 'array', items: { type: 'string' } },
+          confidence: { type: 'string' },
+          implication: { type: 'string' },
+        },
+      },
+    },
+    recommendations: { type: 'array', items: { type: 'string' } },
+    openQuestions: { type: 'array', items: { type: 'string' } },
+  },
+}
+
+const CRITIQUE_SCHEMA = {
+  type: 'object',
+  required: ['verdict', 'strongestEvidence', 'weakSpots', 'actionableCorrections'],
+  properties: {
+    verdict: { type: 'string' },
+    strongestEvidence: { type: 'array', items: { type: 'string' } },
+    weakSpots: { type: 'array', items: { type: 'string' } },
+    missingResearch: { type: 'array', items: { type: 'string' } },
+    actionableCorrections: { type: 'array', items: { type: 'string' } },
+  },
+}
+
+const SYNTHESIS_SCHEMA = {
+  type: 'object',
+  required: ['executiveSummary', 'keyFindings', 'recommendedApproach', 'implementationGuidance', 'sourceNotes'],
+  properties: {
+    executiveSummary: { type: 'string' },
+    keyFindings: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['finding', 'whyItMatters', 'confidence'],
+        properties: {
+          finding: { type: 'string' },
+          whyItMatters: { type: 'string' },
+          confidence: { type: 'string' },
+          sourceRefs: { type: 'array', items: { type: 'string' } },
+        },
+      },
+    },
+    recommendedApproach: { type: 'array', items: { type: 'string' } },
+    implementationGuidance: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['area', 'guidance'],
+        properties: {
+          area: { type: 'string' },
+          guidance: { type: 'string' },
+          examplesToReference: { type: 'array', items: { type: 'string' } },
+        },
+      },
+    },
+    risksAndUnknowns: { type: 'array', items: { type: 'string' } },
+    nextResearchSteps: { type: 'array', items: { type: 'string' } },
+    sourceNotes: { type: 'array', items: { type: 'string' } },
+  },
+}
+
+const defaultLensPlan = [
+  {
+    key: 'landscape',
+    title: 'Landscape and Current Patterns',
+    question: 'What current market, product, design, or technical patterns should shape this work?',
+    method: 'Look for current examples, widely repeated patterns, and recent expert guidance.',
+    sourceTargets: ['current public examples', 'recent reputable analysis', 'official or primary sources'],
+  },
+  {
+    key: 'best-practices',
+    title: 'Best Practices and Standards',
+    question: 'What standards, conventions, and proven best practices apply?',
+    method: 'Prioritize authoritative standards, platform guidance, design-system guidance, and implementation docs.',
+    sourceTargets: ['official documentation', 'standards bodies', 'established design or engineering references'],
+  },
+  {
+    key: 'ux-and-visual-benchmarks',
+    title: 'UX and Visual Benchmarks',
+    question: 'What should we learn from strong real-world user experiences and popular websites or products?',
+    method: 'Inspect relevant products, website flows, layouts, interaction patterns, content hierarchy, accessibility cues, and responsive behavior.',
+    sourceTargets: ['popular websites', 'competitor products', 'design-system examples', 'case studies'],
+  },
+  {
+    key: 'audience-and-jobs',
+    title: 'Audience, Jobs, and Decision Context',
+    question: 'What user needs, jobs-to-be-done, objections, and success criteria matter most?',
+    method: 'Infer user motivations from the brief and validate against domain research where possible.',
+    sourceTargets: ['user research summaries', 'reviews or forum discussions', 'domain reports', 'support docs'],
+  },
+  {
+    key: 'implementation',
+    title: 'Implementation and Operational Constraints',
+    question: 'What practical implementation constraints, dependencies, edge cases, and maintenance concerns should guide the work?',
+    method: 'Research technical docs, integration patterns, performance constraints, and operational failure modes.',
+    sourceTargets: ['official technical docs', 'API references', 'production postmortems', 'known limitations'],
+  },
+  {
+    key: 'risk',
+    title: 'Risks, Tradeoffs, and Anti-Patterns',
+    question: 'What can go wrong, what advice conflicts, and what common anti-patterns should be avoided?',
+    method: 'Search for failure cases, critiques, limitations, and counterexamples.',
+    sourceTargets: ['issue trackers', 'postmortems', 'expert critiques', 'security or accessibility guidance'],
+  },
+]
+
+phase('Scope')
+const scoped = await agent(
+  'Turn this work request into a focused research plan.\n\n'
+  + 'Task:\n' + task + '\n\n'
+  + 'Context:\n' + context + '\n\n'
+  + 'Audience:\n' + audience + '\n\n'
+  + 'Expected deliverable:\n' + deliverable + '\n\n'
+  + 'Constraints:\n' + JSON.stringify(constraints, null, 2) + '\n\n'
+  + 'Success criteria:\n' + JSON.stringify(successCriteria, null, 2) + '\n\n'
+  + 'Requested lenses:\n' + JSON.stringify(requestedLenses, null, 2) + '\n\n'
+  + 'Create 4 to 8 research lenses. Include a UX and visual benchmark lens whenever the task involves frontend, UX, UI, website, app, product design, conversion, onboarding, dashboard, editor, navigation, or interaction design. Each lens should be independently researchable and source-backed.',
+  { label: 'scope-research-plan', phase: 'Scope', schema: SCOPE_SCHEMA }
+)
+
+const lensPlan = ((scoped && Array.isArray(scoped.lensPlan) && scoped.lensPlan.length)
+  ? scoped.lensPlan
+  : defaultLensPlan).slice(0, 8)
+
+log('Researching ' + lensPlan.length + ' lenses for: ' + task)
+
+const lensResults = await pipeline(
+  lensPlan,
+  (lens, originalLens, index) => agent(
+    'Research this lens comprehensively and return source-backed findings.\n\n'
+    + 'Overall task:\n' + task + '\n\n'
+    + 'Context:\n' + context + '\n\n'
+    + 'Audience:\n' + audience + '\n\n'
+    + 'Deliverable:\n' + deliverable + '\n\n'
+    + 'Source expectations:\n' + sourceExpectations + '\n\n'
+    + 'Research lens:\n' + JSON.stringify(lens, null, 2) + '\n\n'
+    + 'Instructions:\n'
+    + '- Use web research when recency, popularity, examples, laws, standards, tools, products, or best practices may have changed.\n'
+    + '- Use local repository or file inspection when the task is tied to an implementation artifact.\n'
+    + '- For frontend, UI, UX, website, or product work, study real current examples and extract transferable patterns, not just abstract advice.\n'
+    + '- Prefer primary or authoritative sources. Include URLs, document titles, local file paths, or other locators.\n'
+    + '- Separate observed evidence from inference. Note weak or missing evidence.\n'
+    + '- Keep findings actionable for the expected deliverable.',
+    { label: 'research:' + (lens.key || index), phase: 'Research', schema: RESEARCH_SCHEMA, stallMs: 300000 }
+  ),
+  (research, originalLens, index) => agent(
+    'Critique and verify this research lens. Try to refute weak claims, identify missing sources, and convert vague advice into concrete corrections.\n\n'
+    + 'Overall task:\n' + task + '\n\n'
+    + 'Lens:\n' + JSON.stringify(originalLens, null, 2) + '\n\n'
+    + 'Research result:\n' + JSON.stringify(research, null, 2),
+    { label: 'critique:' + (originalLens.key || index), phase: 'Critique', schema: CRITIQUE_SCHEMA, model: 'haiku' }
+  ).then(critique => ({ lens: originalLens, research: research, critique: critique }))
+)
+
+const cleanLensResults = lensResults.filter(Boolean)
+
+phase('Synthesize')
+const synthesis = await agent(
+  'Synthesize the research into the final deliverable.\n\n'
+  + 'Task:\n' + task + '\n\n'
+  + 'Context:\n' + context + '\n\n'
+  + 'Audience:\n' + audience + '\n\n'
+  + 'Expected deliverable:\n' + deliverable + '\n\n'
+  + 'Success criteria:\n' + JSON.stringify(successCriteria, null, 2) + '\n\n'
+  + 'Research questions:\n' + JSON.stringify((scoped && scoped.researchQuestions) || [], null, 2) + '\n\n'
+  + 'Lens research and critiques:\n' + JSON.stringify(cleanLensResults, null, 2) + '\n\n'
+  + 'Write for an AI agent or human who will act on this immediately. Prioritize decisions, patterns to copy, anti-patterns to avoid, implementation implications, and citations/locators. Explicitly mark claims that depend on uncertain or stale evidence.',
+  { label: 'final-research-briefing', phase: 'Synthesize', schema: SYNTHESIS_SCHEMA, stallMs: 300000 }
+)
+
+return {
+  task: task,
+  scope: scoped,
+  lensCount: cleanLensResults.length,
+  lenses: cleanLensResults,
+  synthesis: synthesis,
+}

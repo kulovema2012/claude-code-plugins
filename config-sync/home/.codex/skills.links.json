@@ -1,0 +1,4 @@
+{
+  "claude-code-workflow-creator-main": ".agents/skills/claude-code-workflow-creator-main",
+  "langfuse": ".agents/skills/langfuse"
+}

@@ -1,0 +1,179 @@
+{
+  "version": 3,
+  "skills": {
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "3013fdeb8a11b10b1eb795ec3ae8bfca38f7c26d",
+      "installedAt": "2026-03-28T05:10:15.819Z",
+      "updatedAt": "2026-03-28T05:10:15.819Z"
+    },
+    "agent-browser": {
+      "source": "vercel-labs/agent-browser",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
+      "skillPath": "skills/agent-browser/SKILL.md",
+      "skillFolderHash": "b6f762bf402cdfaf6a06514e9ce4142ce3e4fb4c",
+      "installedAt": "2026-04-08T12:19:47.988Z",
+      "updatedAt": "2026-04-08T12:19:47.988Z"
+    },
+    "mem0": {
+      "source": "mem0ai/mem0",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mem0ai/mem0.git",
+      "skillPath": "skills/mem0/SKILL.md",
+      "skillFolderHash": "c286caf598d660cd85e47e8e2b657d24024a27f8",
+      "installedAt": "2026-04-12T16:08:11.460Z",
+      "updatedAt": "2026-04-12T16:08:11.460Z"
+    },
+    "enhance-prompt": {
+      "source": "google-labs-code/stitch-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/google-labs-code/stitch-skills.git",
+      "skillPath": "skills/enhance-prompt/SKILL.md",
+      "skillFolderHash": "ee608061b9209907f5f296670483884c5eb20827",
+      "installedAt": "2026-05-10T09:43:11.158Z",
+      "updatedAt": "2026-05-10T09:43:11.158Z"
+    },
+    "boost-prompt": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/awesome-copilot.git",
+      "skillPath": "skills/boost-prompt/SKILL.md",
+      "skillFolderHash": "1e4715a4a395114392922cfa31d55c6b6e0b3736",
+      "installedAt": "2026-05-10T09:45:24.700Z",
+      "updatedAt": "2026-05-10T09:45:24.700Z"
+    },
+    "prompt-engineering-patterns": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/wshobson/agents.git",
+      "skillPath": "plugins/llm-application-dev/skills/prompt-engineering-patterns/SKILL.md",
+      "skillFolderHash": "b2f3f11cc766503e83d73d5420098b925e3dcfe9",
+      "installedAt": "2026-05-10T09:50:08.337Z",
+      "updatedAt": "2026-05-10T09:50:08.337Z"
+    },
+    "computer-use": {
+      "source": "stablyai/orca",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stablyai/orca.git",
+      "skillPath": "skills/computer-use/SKILL.md",
+      "skillFolderHash": "ac1f6e3de0cbd9b488c5cfb1d4c5c076e17afea0",
+      "installedAt": "2026-05-18T10:34:15.664Z",
+      "updatedAt": "2026-05-18T10:34:15.664Z"
+    },
+    "orca-cli": {
+      "source": "stablyai/orca",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stablyai/orca.git",
+      "skillPath": "skills/orca-cli/SKILL.md",
+      "skillFolderHash": "3b9164e0fba50923c9ce3a4a298a9c8b81677291",
+      "installedAt": "2026-05-18T10:34:15.668Z",
+      "updatedAt": "2026-06-02T00:57:01.969Z"
+    },
+    "orchestration": {
+      "source": "stablyai/orca",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stablyai/orca.git",
+      "skillPath": "skills/orchestration/SKILL.md",
+      "skillFolderHash": "086c41e0b353b4908d2963694b4a7c791d4b3982",
+      "installedAt": "2026-05-18T10:34:15.670Z",
+      "updatedAt": "2026-07-15T20:24:59.023Z"
+    },
+    "critical-thinking-logical-reasoning": {
+      "source": "sammcj/agentic-coding",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/sammcj/agentic-coding.git",
+      "skillPath": "skills/critical-thinking-logical-reasoning/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-05-19T22:07:11.927Z",
+      "updatedAt": "2026-05-19T22:07:11.927Z"
+    },
+    "grill-me": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/grill-me/SKILL.md",
+      "skillFolderHash": "2a1ad17028306ebe45f0e49703fa28b9b2e7f499",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-05-20T12:30:03.822Z",
+      "updatedAt": "2026-05-20T12:31:02.104Z"
+    },
+    "caveman": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/caveman/SKILL.md",
+      "skillFolderHash": "17972a1bdbf5909b9dbdc435ad348f0bf45f8664",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-05-28T15:15:53.293Z",
+      "updatedAt": "2026-05-28T15:15:53.293Z"
+    },
+    "ralph-wiggum": {
+      "source": "fstandhartinger/ralph-wiggum",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/fstandhartinger/ralph-wiggum.git",
+      "skillPath": "skills/ralph-wiggum/SKILL.md",
+      "skillFolderHash": "38a93bc836fe403141c0e6298bd26c8b97044594",
+      "installedAt": "2026-05-28T16:39:20.916Z",
+      "updatedAt": "2026-05-28T16:39:20.916Z"
+    },
+    "fallow": {
+      "source": "fallow-rs/fallow-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/fallow-rs/fallow-skills.git",
+      "skillPath": "fallow/skills/fallow/SKILL.md",
+      "skillFolderHash": "c688429a0afe548bdacbf5b0dbf546068b012abf",
+      "installedAt": "2026-06-04T05:19:59.022Z",
+      "updatedAt": "2026-06-04T05:19:59.022Z"
+    },
+    "ponytail": {
+      "source": "dietrichgebert/ponytail",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/dietrichgebert/ponytail.git",
+      "skillPath": "skills/ponytail/SKILL.md",
+      "skillFolderHash": "1a0986741a7f119c0fee6c3769c382029c238ac8",
+      "installedAt": "2026-06-19T13:50:10.263Z",
+      "updatedAt": "2026-06-19T13:50:10.263Z"
+    },
+    "qa": {
+      "source": "browser-use/browser-use",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/browser-use/browser-use.git",
+      "skillPath": "skills/qa/SKILL.md",
+      "skillFolderHash": "7474eed7141277a591a9d44fa8d85cfb4864cc7c",
+      "installedAt": "2026-06-24T22:25:40.677Z",
+      "updatedAt": "2026-06-24T22:25:40.677Z"
+    },
+    "visual-plan": {
+      "source": "builderio/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/builderio/skills.git",
+      "skillPath": "skills/visual-plan/SKILL.md",
+      "skillFolderHash": "e8fe265c8428408cd6bb057e035d1f8cb4fe662c",
+      "installedAt": "2026-07-10T16:19:40.239Z",
+      "updatedAt": "2026-07-10T16:19:40.239Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "antigravity-cli",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-code-cli",
+    "opencode",
+    "warp",
+    "zed",
+    "claude-code"
+  ]
+}

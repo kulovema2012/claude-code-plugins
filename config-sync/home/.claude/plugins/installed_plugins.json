@@ -1,0 +1,788 @@
+{
+  "version": 2,
+  "plugins": {
+    "code-review@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\code-review\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-24T07:30:09.876Z",
+        "lastUpdated": "2026-07-24T23:59:16.467Z",
+        "gitCommitSha": "ca7e8198f11f2d1e087a55a204a091bb8b66a1cf"
+      }
+    ],
+    "mcp-server-dev@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\ai-ml-development\\task-service",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\mcp-server-dev\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-24T07:30:41.693Z",
+        "lastUpdated": "2026-03-25T07:45:32.296Z",
+        "gitCommitSha": "79caa0d824acb760fd9c023acb39c6c7da5ee7fc"
+      }
+    ],
+    "superpowers@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\superpowers\\6.2.0",
+        "version": "6.2.0",
+        "installedAt": "2026-03-24T07:32:47.301Z",
+        "lastUpdated": "2026-07-24T16:24:55.752Z",
+        "gitCommitSha": "8ea39819eed74fe2a0338e71789f06b30e953041"
+      }
+    ],
+    "ralph-loop@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\ralph-loop\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-24T07:32:47.345Z",
+        "lastUpdated": "2026-04-08T06:27:39.033Z",
+        "gitCommitSha": "79caa0d824acb760fd9c023acb39c6c7da5ee7fc"
+      }
+    ],
+    "skill-creator@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\skill-creator\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-24T07:32:47.405Z",
+        "lastUpdated": "2026-07-24T23:59:16.912Z",
+        "gitCommitSha": "ca7e8198f11f2d1e087a55a204a091bb8b66a1cf"
+      }
+    ],
+    "agent-teams@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\agent-teams\\1.0.3",
+        "version": "1.0.3",
+        "installedAt": "2026-03-25T07:49:38.446Z",
+        "lastUpdated": "2026-05-22T17:08:12.666Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      },
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\mobile-applications",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\agent-teams\\1.0.3",
+        "version": "1.0.3",
+        "installedAt": "2026-03-29T06:49:55.092Z",
+        "lastUpdated": "2026-07-16T13:58:38.887Z",
+        "gitCommitSha": "b6af3711058190e4b5c5274b9758498fe626ec5a"
+      },
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\thai-qr-mockup",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\agent-teams\\1.0.2",
+        "version": "1.0.2",
+        "installedAt": "2026-03-30T09:08:28.306Z",
+        "lastUpdated": "2026-03-30T09:08:28.306Z",
+        "gitCommitSha": "91fe43e152e96a55a264fc1afdf44cd4db2a38d4"
+      },
+      {
+        "scope": "local",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\ai-studio",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\agent-teams\\1.0.3",
+        "version": "1.0.3",
+        "installedAt": "2026-04-07T11:22:50.396Z",
+        "lastUpdated": "2026-07-16T13:58:38.953Z",
+        "gitCommitSha": "b6af3711058190e4b5c5274b9758498fe626ec5a"
+      },
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\ai-studio\\.claude\\worktrees\\layout-redesign",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\agent-teams\\1.0.2",
+        "version": "1.0.2",
+        "installedAt": "2026-04-11T08:58:34.489Z",
+        "lastUpdated": "2026-04-11T08:58:34.489Z",
+        "gitCommitSha": "03d0b4b9eb4d57bd961aa252a56025daa21543e6"
+      },
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\saifah-fund",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\agent-teams\\1.0.2",
+        "version": "1.0.2",
+        "installedAt": "2026-04-17T09:52:44.987Z",
+        "lastUpdated": "2026-04-17T09:52:44.987Z",
+        "gitCommitSha": "87b81e9d642d7bb9602b33d1e2dadf1c2a619f2b"
+      }
+    ],
+    "frontend-design@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\frontend-design\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-03-25T07:51:37.853Z",
+        "lastUpdated": "2026-07-24T23:59:16.806Z",
+        "gitCommitSha": "b0b9f02b0581696da41e20d6c536ec639b44080f"
+      },
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\ai-studio\\.claude\\worktrees\\layout-redesign",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\frontend-design\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-15T01:53:57.427Z",
+        "lastUpdated": "2026-04-15T01:53:57.427Z"
+      }
+    ],
+    "ui-design@claude-code-workflows": [
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\mobile-applications\\rama-goal-achievement-app",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\ui-design\\1.0.5",
+        "version": "1.0.5",
+        "installedAt": "2026-03-29T06:55:11.992Z",
+        "lastUpdated": "2026-07-16T13:58:39.097Z",
+        "gitCommitSha": "b6af3711058190e4b5c5274b9758498fe626ec5a"
+      },
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\saifah-fund\\.claude\\worktrees\\business-plan",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\ui-design\\1.0.3",
+        "version": "1.0.3",
+        "installedAt": "2026-05-05T11:59:05.181Z",
+        "lastUpdated": "2026-05-05T11:59:05.181Z",
+        "gitCommitSha": "ece811f23310a37ceb43496dbac0e244fe6845b6"
+      },
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\saifah-fund\\.claude\\worktrees\\grants-page",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\ui-design\\1.0.3",
+        "version": "1.0.3",
+        "installedAt": "2026-05-05T14:10:26.044Z",
+        "lastUpdated": "2026-05-05T14:10:26.044Z",
+        "gitCommitSha": "ece811f23310a37ceb43496dbac0e244fe6845b6"
+      }
+    ],
+    "unit-testing@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\unit-testing\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-03-29T06:55:11.992Z",
+        "lastUpdated": "2026-07-24T21:24:34.141Z",
+        "gitCommitSha": "b6af3711058190e4b5c5274b9758498fe626ec5a"
+      },
+      {
+        "scope": "local",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\ai-studio",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\unit-testing\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-04-07T11:31:32.546Z",
+        "lastUpdated": "2026-07-16T13:58:38.911Z",
+        "gitCommitSha": "b6af3711058190e4b5c5274b9758498fe626ec5a"
+      }
+    ],
+    "application-performance@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\application-performance\\1.3.1",
+        "version": "1.3.1",
+        "installedAt": "2026-03-29T06:55:11.992Z",
+        "lastUpdated": "2026-05-22T17:08:12.601Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "c4-architecture@claude-code-workflows": [
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\mobile-applications\\rama-goal-achievement-app",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\c4-architecture\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-29T08:22:00.104Z",
+        "lastUpdated": "2026-03-29T08:22:00.104Z",
+        "gitCommitSha": "91fe43e152e96a55a264fc1afdf44cd4db2a38d4"
+      }
+    ],
+    "vercel@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\vercel\\0.45.1",
+        "version": "0.45.1",
+        "installedAt": "2026-04-07T11:08:02.265Z",
+        "lastUpdated": "2026-07-23T20:41:57.554Z",
+        "gitCommitSha": "b95178c7d8dfb2d48f142825dd967b71d7552eab"
+      }
+    ],
+    "typescript-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\typescript-lsp\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-07T11:24:27.727Z",
+        "lastUpdated": "2026-07-24T21:24:34.141Z"
+      },
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\ai-studio\\.claude\\worktrees\\layout-redesign",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\typescript-lsp\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-11T08:59:06.287Z",
+        "lastUpdated": "2026-04-11T08:59:06.287Z"
+      }
+    ],
+    "feature-dev@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\feature-dev\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-07T11:27:16.221Z",
+        "lastUpdated": "2026-07-24T23:59:16.556Z",
+        "gitCommitSha": "b0b9f02b0581696da41e20d6c536ec639b44080f"
+      }
+    ],
+    "plugin-dev@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\claude-code-plugins",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\plugin-dev\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-19T13:38:08.504Z",
+        "lastUpdated": "2026-07-24T21:30:52.864Z"
+      }
+    ],
+    "claude-code-plugins@local-desktop-app-uploads": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\marketplaces\\local-desktop-app-uploads\\claude-code-plugins",
+        "version": "1.0.0",
+        "installedAt": "2026-04-08T08:46:37.930Z",
+        "lastUpdated": "2026-04-08T08:46:37.930Z"
+      }
+    ],
+    "pyright-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\pyright-lsp\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-11T08:59:16.857Z",
+        "lastUpdated": "2026-07-24T21:24:34.141Z"
+      }
+    ],
+    "code-simplifier@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\code-simplifier\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-15T01:54:19.505Z",
+        "lastUpdated": "2026-04-19T13:21:04.149Z"
+      }
+    ],
+    "warp@claude-code-warp": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-warp\\warp\\2.2.0",
+        "version": "2.2.0",
+        "installedAt": "2026-04-15T21:50:01.728Z",
+        "lastUpdated": "2026-07-16T11:22:13.589Z",
+        "gitCommitSha": "e0e18e162aa5ec97a6d4cecdf66b08b75eb1e149"
+      }
+    ],
+    "pr-review-toolkit@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\saifah-fund",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\pr-review-toolkit\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-17T09:17:57.968Z",
+        "lastUpdated": "2026-07-24T17:36:54.479Z",
+        "gitCommitSha": "b0b9f02b0581696da41e20d6c536ec639b44080f"
+      }
+    ],
+    "security-guidance@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\security-guidance\\2.0.6",
+        "version": "2.0.6",
+        "installedAt": "2026-04-17T09:48:06.029Z",
+        "lastUpdated": "2026-06-14T22:39:40.852Z"
+      }
+    ],
+    "stripe@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\saifah-fund",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\stripe\\0.4.1",
+        "version": "0.4.1",
+        "installedAt": "2026-04-17T09:48:35.478Z",
+        "lastUpdated": "2026-07-24T17:36:54.268Z",
+        "gitCommitSha": "84c364c683c58ba8dfbc003d812e6a35f4c97b47"
+      }
+    ],
+    "atomic-agents@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\atomic-agents\\b15ca449a812",
+        "version": "b15ca449a812",
+        "installedAt": "2026-04-17T09:49:39.432Z",
+        "lastUpdated": "2026-07-19T20:21:31.028Z",
+        "gitCommitSha": "c8064a06cf210ef263f796b0c201d05ebc67f3f6"
+      }
+    ],
+    "data-engineering@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\data-engineering\\0.1.0",
+        "version": "0.1.0",
+        "installedAt": "2026-04-17T09:49:42.776Z",
+        "lastUpdated": "2026-04-17T09:49:42.776Z",
+        "gitCommitSha": "85d6053b1e21724f9cefb1e3f5219bd54fc77224"
+      }
+    ],
+    "cloudflare@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\cloudflare\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-17T09:52:45.474Z",
+        "lastUpdated": "2026-04-17T09:52:45.474Z",
+        "gitCommitSha": "5ec03da67e230df52b698255c8e5979dc9b124b6"
+      }
+    ],
+    "pydantic-ai@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\pydantic-ai\\0.1.0",
+        "version": "0.1.0",
+        "installedAt": "2026-04-17T09:52:48.263Z",
+        "lastUpdated": "2026-04-17T09:52:48.263Z",
+        "gitCommitSha": "97d8c1d5adcf85dce633f5f4633f4e01464d087e"
+      }
+    ],
+    "agent-orchestration@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\agent-orchestration\\1.2.2",
+        "version": "1.2.2",
+        "installedAt": "2026-04-17T09:52:48.332Z",
+        "lastUpdated": "2026-05-22T17:08:12.623Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "api-scaffolding@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\api-scaffolding\\1.2.3",
+        "version": "1.2.3",
+        "installedAt": "2026-04-17T09:57:02.222Z",
+        "lastUpdated": "2026-05-22T17:08:12.546Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "backend-api-security@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\backend-api-security\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-04-17T09:57:02.428Z",
+        "lastUpdated": "2026-05-22T17:08:12.689Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "backend-development@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\backend-development\\1.3.2",
+        "version": "1.3.2",
+        "installedAt": "2026-04-17T09:57:02.585Z",
+        "lastUpdated": "2026-05-22T17:08:12.927Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "cicd-automation@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\cicd-automation\\1.2.3",
+        "version": "1.2.3",
+        "installedAt": "2026-04-17T09:57:02.715Z",
+        "lastUpdated": "2026-05-22T17:08:12.864Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "cloud-infrastructure@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\cloud-infrastructure\\1.3.2",
+        "version": "1.3.2",
+        "installedAt": "2026-04-17T09:57:02.854Z",
+        "lastUpdated": "2026-05-22T17:08:12.710Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "code-refactoring@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\code-refactoring\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-04-17T09:57:02.921Z",
+        "lastUpdated": "2026-05-22T17:08:12.573Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "comprehensive-review@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\comprehensive-review\\1.3.1",
+        "version": "1.3.1",
+        "installedAt": "2026-04-17T09:57:02.972Z",
+        "lastUpdated": "2026-05-22T17:08:12.465Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "data-engineering@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\data-engineering\\1.3.2",
+        "version": "1.3.2",
+        "installedAt": "2026-04-17T09:57:03.018Z",
+        "lastUpdated": "2026-05-22T17:08:12.821Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "database-design@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\database-design\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-04-17T09:57:03.068Z",
+        "lastUpdated": "2026-05-22T17:08:12.947Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "database-migrations@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\database-migrations\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-04-17T09:57:03.118Z",
+        "lastUpdated": "2026-05-22T17:08:12.798Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "debugging-toolkit@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\debugging-toolkit\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-04-17T09:57:03.169Z",
+        "lastUpdated": "2026-05-22T17:08:12.521Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "git-pr-workflows@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\git-pr-workflows\\1.3.1",
+        "version": "1.3.1",
+        "installedAt": "2026-04-17T09:57:03.229Z",
+        "lastUpdated": "2026-05-22T17:08:12.758Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "observability-monitoring@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\observability-monitoring\\1.2.3",
+        "version": "1.2.3",
+        "installedAt": "2026-04-17T09:57:03.328Z",
+        "lastUpdated": "2026-05-22T17:08:12.730Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "shell-scripting@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\shell-scripting\\1.2.3",
+        "version": "1.2.3",
+        "installedAt": "2026-04-17T09:57:03.381Z",
+        "lastUpdated": "2026-05-22T17:08:12.438Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "tdd-workflows@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\tdd-workflows\\1.3.1",
+        "version": "1.3.1",
+        "installedAt": "2026-04-17T09:57:03.440Z",
+        "lastUpdated": "2026-05-22T17:08:12.501Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "telegram@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "C:\\Users\\new_k\\development-labs\\web-applications\\thai-qr-mockup",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\telegram\\0.0.6",
+        "version": "0.0.6",
+        "installedAt": "2026-04-17T17:13:44.147Z",
+        "lastUpdated": "2026-04-17T17:13:44.147Z"
+      }
+    ],
+    "claude-md-management@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\claude-md-management\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-18T14:37:37.346Z",
+        "lastUpdated": "2026-04-18T14:37:37.346Z"
+      }
+    ],
+    "context-mode@context-mode": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\context-mode\\context-mode\\1.0.169",
+        "version": "1.0.169",
+        "installedAt": "2026-04-20T04:16:47.062Z",
+        "lastUpdated": "2026-07-24T21:24:34.141Z",
+        "gitCommitSha": "55b51d31db397de04912a8d6953a094f4c388368"
+      }
+    ],
+    "codex@openai-codex": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\openai-codex\\codex\\1.0.6",
+        "version": "1.0.6",
+        "installedAt": "2026-04-28T05:16:09.012Z",
+        "lastUpdated": "2026-07-24T21:24:34.141Z",
+        "gitCommitSha": "db52e28f4d9ded852ab3942cea316258ae4ef346"
+      }
+    ],
+    "playwright@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\playwright\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-05-05T11:57:31.912Z",
+        "lastUpdated": "2026-07-24T23:59:16.840Z",
+        "gitCommitSha": "ca7e8198f11f2d1e087a55a204a091bb8b66a1cf"
+      }
+    ],
+    "explanatory-output-style@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\explanatory-output-style\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-05-10T09:37:51.474Z",
+        "lastUpdated": "2026-05-10T09:37:51.474Z"
+      }
+    ],
+    "hookify@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\hookify\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-05-10T09:37:51.749Z",
+        "lastUpdated": "2026-07-25T00:55:54.126Z",
+        "gitCommitSha": "ca7e8198f11f2d1e087a55a204a091bb8b66a1cf"
+      }
+    ],
+    "playground@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\playground\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-05-10T09:37:51.976Z",
+        "lastUpdated": "2026-07-25T00:55:53.964Z",
+        "gitCommitSha": "ca7e8198f11f2d1e087a55a204a091bb8b66a1cf"
+      }
+    ],
+    "gopls-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\gopls-lsp\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-05-10T09:37:52.135Z",
+        "lastUpdated": "2026-05-10T09:37:52.135Z"
+      }
+    ],
+    "remember@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\remember\\0.8.3",
+        "version": "0.8.3",
+        "installedAt": "2026-05-10T09:37:58.072Z",
+        "lastUpdated": "2026-06-26T07:13:49.072Z",
+        "gitCommitSha": "914445ac5f06a164800ea90ba4db41a0486321ae"
+      }
+    ],
+    "math-olympiad@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\math-olympiad\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-05-10T09:38:17.984Z",
+        "lastUpdated": "2026-07-25T00:55:54.036Z",
+        "gitCommitSha": "ca7e8198f11f2d1e087a55a204a091bb8b66a1cf"
+      }
+    ],
+    "fakechat@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\fakechat\\0.0.1",
+        "version": "0.0.1",
+        "installedAt": "2026-05-10T09:38:04.341Z",
+        "lastUpdated": "2026-05-10T09:38:04.341Z"
+      }
+    ],
+    "desktop-commander@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\desktop-commander\\0.2.0",
+        "version": "0.2.0",
+        "installedAt": "2026-05-10T09:39:22.543Z",
+        "lastUpdated": "2026-07-02T09:01:06.503Z",
+        "gitCommitSha": "0ad919bc188947fc55b1bf269df62f4b14b3880c"
+      }
+    ],
+    "brand-landingpage@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\brand-landingpage\\1.0.1",
+        "version": "1.0.1",
+        "installedAt": "2026-05-10T09:39:23.360Z",
+        "lastUpdated": "2026-05-22T17:08:12.776Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "business-analytics@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\business-analytics\\1.2.3",
+        "version": "1.2.3",
+        "installedAt": "2026-05-10T09:39:24.499Z",
+        "lastUpdated": "2026-05-22T17:08:13.147Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "code-documentation@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\code-documentation\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-05-10T09:39:25.183Z",
+        "lastUpdated": "2026-05-22T17:08:13.027Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "codebase-cleanup@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\codebase-cleanup\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-05-10T09:39:25.880Z",
+        "lastUpdated": "2026-05-22T17:08:12.907Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "conductor@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\conductor\\1.2.2",
+        "version": "1.2.2",
+        "installedAt": "2026-05-10T09:39:29.300Z",
+        "lastUpdated": "2026-05-22T17:08:13.103Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "framework-migration@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\framework-migration\\1.3.2",
+        "version": "1.3.2",
+        "installedAt": "2026-05-10T09:39:30.678Z",
+        "lastUpdated": "2026-05-22T17:08:13.074Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "frontend-mobile-development@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\frontend-mobile-development\\1.2.3",
+        "version": "1.2.3",
+        "installedAt": "2026-05-10T09:39:31.800Z",
+        "lastUpdated": "2026-05-22T17:08:12.967Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "frontend-mobile-security@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\frontend-mobile-security\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-05-10T09:39:33.347Z",
+        "lastUpdated": "2026-05-22T17:08:12.988Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "full-stack-orchestration@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\full-stack-orchestration\\1.3.1",
+        "version": "1.3.1",
+        "installedAt": "2026-05-10T09:39:34.023Z",
+        "lastUpdated": "2026-05-22T17:08:13.008Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "functional-programming@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\functional-programming\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-05-10T09:39:34.572Z",
+        "lastUpdated": "2026-05-22T17:08:12.844Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "review-agent-governance@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\review-agent-governance\\0.1.1",
+        "version": "0.1.1",
+        "installedAt": "2026-05-10T09:39:35.330Z",
+        "lastUpdated": "2026-05-22T17:08:12.884Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "security-compliance@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\security-compliance\\1.2.1",
+        "version": "1.2.1",
+        "installedAt": "2026-05-10T09:39:35.942Z",
+        "lastUpdated": "2026-05-22T17:08:13.051Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "security-scanning@claude-code-workflows": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-code-workflows\\security-scanning\\1.3.2",
+        "version": "1.3.2",
+        "installedAt": "2026-05-10T09:39:36.557Z",
+        "lastUpdated": "2026-05-22T17:08:13.126Z",
+        "gitCommitSha": "da2dd545ccf4000a318ff15c0bc8631ef7a950e4"
+      }
+    ],
+    "rust-analyzer-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\claude-plugins-official\\rust-analyzer-lsp\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-05-27T02:27:07.024Z",
+        "lastUpdated": "2026-05-27T02:27:07.024Z"
+      }
+    ],
+    "cloudflare@cloudflare": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\new_k\\.claude\\plugins\\cache\\cloudflare\\cloudflare\\1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-07-22T04:47:49.425Z",
+        "lastUpdated": "2026-07-22T04:47:49.425Z",
+        "gitCommitSha": "60147cbb773649eadca89cee92b4e0caf02234b4"
+      }
+    ]
+  }
+}

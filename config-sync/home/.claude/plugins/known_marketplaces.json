@@ -1,0 +1,63 @@
+{
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "C:\\Users\\new_k\\.claude\\plugins\\marketplaces\\claude-plugins-official",
+    "lastUpdated": "2026-07-25T00:55:50.153Z"
+  },
+  "claude-code-workflows": {
+    "source": {
+      "source": "github",
+      "repo": "wshobson/agents"
+    },
+    "installLocation": "C:\\Users\\new_k\\.claude\\plugins\\marketplaces\\claude-code-workflows",
+    "lastUpdated": "2026-07-24T21:30:51.289Z",
+    "autoUpdate": true
+  },
+  "local-desktop-app-uploads": {
+    "source": {
+      "source": "directory",
+      "path": "C:\\Users\\new_k\\.claude\\plugins\\marketplaces\\local-desktop-app-uploads"
+    },
+    "installLocation": "C:\\Users\\new_k\\.claude\\plugins\\marketplaces\\local-desktop-app-uploads",
+    "lastUpdated": "2026-07-22T02:17:51.755Z",
+    "autoUpdate": true
+  },
+  "claude-code-warp": {
+    "source": {
+      "source": "github",
+      "repo": "warpdotdev/claude-code-warp"
+    },
+    "installLocation": "C:\\Users\\new_k\\.claude\\plugins\\marketplaces\\claude-code-warp",
+    "lastUpdated": "2026-07-24T16:24:51.626Z",
+    "autoUpdate": true
+  },
+  "context-mode": {
+    "source": {
+      "source": "github",
+      "repo": "mksglu/context-mode"
+    },
+    "installLocation": "C:\\Users\\new_k\\.claude\\plugins\\marketplaces\\context-mode",
+    "lastUpdated": "2026-07-24T23:59:01.763Z",
+    "autoUpdate": true
+  },
+  "openai-codex": {
+    "source": {
+      "source": "github",
+      "repo": "openai/codex-plugin-cc"
+    },
+    "installLocation": "C:\\Users\\new_k\\.claude\\plugins\\marketplaces\\openai-codex",
+    "lastUpdated": "2026-07-24T23:59:07.413Z",
+    "autoUpdate": true
+  },
+  "cloudflare": {
+    "source": {
+      "source": "github",
+      "repo": "cloudflare/skills"
+    },
+    "installLocation": "C:\\Users\\new_k\\.claude\\plugins\\marketplaces\\cloudflare",
+    "lastUpdated": "2026-05-28T02:12:08.346Z"
+  }
+}

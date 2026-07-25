@@ -1,0 +1,291 @@
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
+service_tier = "default"
+
+notify = [ "{{HOME}}/AppData/Local/OpenAI/Codex/runtimes/cua_node/f8d2abcb7481383b/bin/node_modules/@oai/sky/bin/windows/codex-computer-use.exe", "turn-ended" ]
+[windows]
+sandbox = "unelevated"
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."superpowers@openai-curated"]
+enabled = true
+
+[plugins."notion@openai-curated"]
+enabled = true
+
+[plugins."neon-postgres@openai-curated"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."feature-dev@claude-plugins-official"]
+enabled = true
+
+[plugins."frontend-design@claude-plugins-official"]
+enabled = true
+
+[plugins."pr-review-toolkit@claude-plugins-official"]
+enabled = true
+
+[plugins."stripe@claude-plugins-official"]
+enabled = true
+
+[plugins."typescript-lsp@claude-plugins-official"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
+[marketplaces.openai-bundled]
+last_updated = "2026-07-24T20:22:54Z"
+source_type = "local"
+source = '\\?\{{HOME}}/.codex/.tmp/bundled-marketplaces/openai-bundled'
+
+[marketplaces.openai-primary-runtime]
+last_updated = "2026-07-24T09:04:55Z"
+source_type = "local"
+source = '\\?\{{HOME}}/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime'
+
+[marketplaces.claude-plugins-official]
+last_updated = "2026-07-25T00:13:11Z"
+last_revision = "f6a8253850e4db2ab62c8fb2c53ad73c6843e32c"
+source_type = "git"
+source = "https://github.com/anthropics/claude-plugins-official.git"
+
+[projects."{{HOME}}/documents/new project"]
+trust_level = "trusted"
+
+[projects."{{HOME}}"]
+trust_level = "trusted"
+
+[projects."{{HOME}}/development-labs/web-applications/saifah-fund"]
+trust_level = "trusted"
+
+[projects."{{HOME}}/development-labs/ai-ml-development/ux-journal-agent-service"]
+trust_level = "trusted"
+
+[projects."{{HOME}}/development-labs/web-applications/thai-qr-mockup"]
+trust_level = "trusted"
+
+[projects.'{{HOME}}/development-labs/employee-projects/saifah-fund']
+trust_level = "trusted"
+
+[projects.'{{HOME}}/documents/codex/2026-05-31/how-to-fix-this-error']
+trust_level = "trusted"
+
+[projects.'{{HOME}}/documents/codex/2026-05-31/nlm-skill-c-users-new-k']
+trust_level = "trusted"
+
+[projects.'{{HOME}}/documents/codex/2026-06-03/browser-browser-c-users-new-k']
+trust_level = "trusted"
+
+[projects.'{{HOME}}/development-labs/ai-ml-development/dynamic_workflow_labs/research_workflows']
+trust_level = "trusted"
+
+[projects.'c:\windows\system32']
+trust_level = "trusted"
+
+[projects.'{{HOME}}/documents/codex/2026-07-14/sites-plugin-sites-openai-bundled-create']
+trust_level = "trusted"
+
+[tui]
+notification_condition = "always"
+status_line = [
+  "model-with-reasoning",
+  "current-dir",
+  "git-branch",
+  "used-tokens",
+  "session-id",
+  "ta{{CODEX_API_KEY}}"
+]
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+"gpt-5.6-sol" = 4
+
+[features]
+memories = true
+js_repl = false
+hooks = true
+
+[notice]
+fast_default_opt_out = true
+
+[notice.model_migrations]
+"gpt-5.3-codex" = "gpt-5.4"
+
+[mcp_servers.Neon]
+url = "https://mcp.neon.tech/mcp"
+
+[mcp_servers.Neon.http_headers]
+Authorization = "{{CODEX_BEARER}}"
+
+[mcp_servers.node_repl]
+args = []
+command = '{{HOME}}/AppData/Local/OpenAI/Codex/runtimes/cua_node/f8d2abcb7481383b/bin/node_repl.exe'
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = '{{HOME}}/AppData/Local/OpenAI/Codex/runtimes/cua_node/f8d2abcb7481383b/bin/node_modules'
+NODE_REPL_NODE_PATH = '{{HOME}}/AppData/Local/OpenAI/Codex/runtimes/cua_node/f8d2abcb7481383b/bin/node.exe'
+NODE_REPL_TRUSTED_CODE_PATHS = '{{HOME}}/.codex'
+CODEX_HOME = '{{HOME}}/.codex'
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "3fdfe9a7ad39456da69c5e8fa7bbf7229ec2fe9de5f4cf2e476166bf30a08a7e,7ed52dae165c3bc22b6d24f282e2c1fbc87f6949fbbe037767a7418d8f517f01"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.721.31836"
+SKY_CUA_NATIVE_PIPE = "1"
+SKY_CUA_NATIVE_PIPE_DIRECTORY = '\\.\pipe\codex-computer-use-8429ed79-c1b9-471e-aed5-85fb6240e6fa'
+CODEX_CLI_PATH = '{{HOME}}/AppData/Local/OpenAI/Codex/bin/69066b736e1e17a4/codex.exe'
+
+[mcp_servers.dokploy-mcp]
+command = "cmd"
+args = ["/c", "npx", "-y", "@dokploy/mcp@0.29.3"]
+startup_timeout_sec = 120
+
+[mcp_servers.dokploy-mcp.env]
+DOKPLOY_API_KEY = "BDrHzsAwdDENidkcxfTRFTIaipTqzBAebOmsQfPZPBrfBhtStYByguwkYfIbJYrk"
+DOKPLOY_URL = "https://dokploy.johnstocker.cloud"
+
+[desktop.open-in-target-preferences]
+global = "zed"
+
+[mcp_servers.langfuse]
+url = "https://langfuse.johnstocker.cloud/api/public/mcp"
+
+[mcp_servers.langfuse.http_headers]
+Authorization = "Basic cGstbGYtM2ZkMmFlYzUtNzQ1Mi00MmQzLWIzYTMtNWJiOWMwYzliNDUzOnNrLWxmLTUwMDdjZDJjLTk5YWItNGZmNy1iMjhkLWQzOTNlMGExMmExMg=="
+
+[desktop]
+followUpQueueMode = "queue"
+conversationDetailMode = "STEPS_COMMANDS"
+keepRemoteControlAwakeWhilePluggedIn = true
+show-context-window-usage = true
+
+[mcp_servers.context-mode]
+command = "cmd"
+args = ["/c", "context-mode"]
+startup_timeout_sec = 120
+
+[mcp_servers.context-mode.env]
+CONTEXT_MODE_PLATFORM = "codex"
+
+[mcp_servers.context-mode.tools.ctx_execute]
+approval_mode = "approve"
+
+[mcp_servers.context-mode.tools.ctx_execute_file]
+approval_mode = "approve"
+
+[mcp_servers.gitnexus]
+command = "cmd"
+args = ["/c", "gitnexus", "mcp"]
+startup_timeout_sec = 120
+
+[hooks.state]
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:pre_tool_use:0:0']
+enabled = true
+trusted_hash = "sha256:69b4ecce0665d5cf169b85191c0756b43510c358f9e8219b93a52f111f0445fc"
+
+[hooks.state."{{HOME}}/.codex/hooks.json:pre_tool_use:0:0"]
+enabled = true
+trusted_hash = "sha256:69b4ecce0665d5cf169b85191c0756b43510c358f9e8219b93a52f111f0445fc"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:post_tool_use:0:0']
+enabled = true
+trusted_hash = "sha256:92828bbbeb97fe79f0d3acd01c5c37c807636a4e480b24b762c120826bfde0ce"
+
+[hooks.state."{{HOME}}/.codex/hooks.json:post_tool_use:0:0"]
+enabled = true
+trusted_hash = "sha256:92828bbbeb97fe79f0d3acd01c5c37c807636a4e480b24b762c120826bfde0ce"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:session_start:0:0']
+enabled = true
+trusted_hash = "sha256:4fa787da05be4bc67401f229fc8443d3b14a71641cd36e7607ea07dc4c9a36c7"
+
+[hooks.state."{{HOME}}/.codex/hooks.json:session_start:0:0"]
+enabled = true
+trusted_hash = "sha256:4fa787da05be4bc67401f229fc8443d3b14a71641cd36e7607ea07dc4c9a36c7"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:pre_compact:0:0']
+enabled = true
+trusted_hash = "sha256:c7c604795a9951c8fc8c2e1fea1283c8180d6208cb9c5e86d71fca4fde350c49"
+
+[hooks.state."{{HOME}}/.codex/hooks.json:pre_compact:0:0"]
+enabled = true
+trusted_hash = "sha256:c7c604795a9951c8fc8c2e1fea1283c8180d6208cb9c5e86d71fca4fde350c49"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:user_prompt_submit:0:0']
+enabled = true
+trusted_hash = "sha256:9f9b46244739e7f6f787757a083d0d65c07db3aa2daaaecb6fe9e65b08f362b2"
+
+[hooks.state."{{HOME}}/.codex/hooks.json:user_prompt_submit:0:0"]
+enabled = true
+trusted_hash = "sha256:9f9b46244739e7f6f787757a083d0d65c07db3aa2daaaecb6fe9e65b08f362b2"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:stop:0:0']
+enabled = true
+trusted_hash = "sha256:9fc7312a4a274d40081f6734c6f6553d494e9cfde20fd01339995232aea2d74a"
+
+[hooks.state."{{HOME}}/.codex/hooks.json:stop:0:0"]
+enabled = true
+trusted_hash = "sha256:9fc7312a4a274d40081f6734c6f6553d494e9cfde20fd01339995232aea2d74a"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:pre_tool_use:1:0']
+trusted_hash = "sha256:4a778075aac6917b100821f47105b414119a926d638c3a3b03358a9c48974fab"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:permission_request:0:0']
+trusted_hash = "sha256:1103aa711744964d1fcde86550901cb7eafe610cfcd82f0f4e2a6de4848e966c"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:post_tool_use:1:0']
+trusted_hash = "sha256:85859b0421eb390865af546cd4e679885ed2e8a7b5247bc0fc20c0b4abed0782"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:session_start:1:0']
+trusted_hash = "sha256:13e40a7a5bba1f3bb6c96f732b3adcd9a88f7308ef43d7750732c076650f32dc"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:user_prompt_submit:1:0']
+trusted_hash = "sha256:0cf45d1b7c118948499d602be8fda0a30db6c9f65e72291badd8844c67c18351"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:subagent_start:0:0']
+trusted_hash = "sha256:cef01a1e2ab89329501b0b06970a56ad19ae315c040037e380fe6fdf31f1ada7"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:subagent_stop:0:0']
+trusted_hash = "sha256:6789051f3e79f966d901c02152bbec2497617b02b02f715e2a9665985a52baa8"
+
+[hooks.state.'{{HOME}}/.codex/hooks.json:stop:1:0']
+trusted_hash = "sha256:8952582445e7eac05638b24c499f8b727cef6b432d333f394dba6fb8099c5552"
+
+[shell_environment_policy.set]
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "3fdfe9a7ad39456da69c5e8fa7bbf7229ec2fe9de5f4cf2e476166bf30a08a7e,7ed52dae165c3bc22b6d24f282e2c1fbc87f6949fbbe037767a7418d8f517f01"
+NODE_REPL_TRUSTED_CODE_PATHS = '{{HOME}}/.codex'

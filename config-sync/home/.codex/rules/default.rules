@@ -1,0 +1,3 @@
+prefix_rule(pattern=["C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "-Command", "git clone https://github.com/DEV-Johnstocker/ai-studio.git ai-studio"], decision="allow")
+prefix_rule(pattern=["C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "-Command", "node --test tests/*.test.js"], decision="allow")
+prefix_rule(pattern=["C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "-Command", "Get-ChildItem -Path . -Recurse -Filter *.js | Where-Object { $_.FullName -notmatch '\\\\node_modules\\\\' } | ForEach-Object { node --check $_.FullName }"], decision="allow")

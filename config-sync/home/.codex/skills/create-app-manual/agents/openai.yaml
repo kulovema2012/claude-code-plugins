@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create App Manual"
+  short_description: "Build annotated step-by-step app guides"
+  default_prompt: "Use $create-app-manual to document this app in Thai with annotated screenshots and a DOCX guide."
