@@ -16,11 +16,11 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { loadManifest, resolveDest } from './lib/manifest.js';
 import { loadEnvFile } from './lib/env.js';
 import { renderTemplate } from './lib/render.js';
-import { copyTree, writeText } from './lib/fs-util.js';
+import { copyTree, writeText, linkType } from './lib/fs-util.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
-export async function runInstall({ argv, cwd, home, envFile, fs, stdout }) {
+export async function runInstall({ argv, cwd, home, envFile, fs, stdout, platform }) {
   const f = fs || (await import('node:fs/promises'));
   const out = stdout || ((s) => console.log(s));
   const opts = {
@@ -64,7 +64,9 @@ export async function runInstall({ argv, cwd, home, envFile, fs, stdout }) {
         if (exists && !opts.force) { opts.log('skip', linkDest); continue; }
         if (opts.dryRun) { opts.log('link', linkDest); continue; }
         if (exists) { try { await f.unlink(linkDest); } catch {} }
-        await f.symlink(target, linkDest);
+        // Pass the Windows link type (dir/file) so directory links aren't mis-typed
+        // as broken file links when the target is restored after the link. See linkType.
+        await f.symlink(target, linkDest, await linkType(f, target, platform));
         opts.log('link', linkDest);
       }
     } else if (t.type === 'template') {

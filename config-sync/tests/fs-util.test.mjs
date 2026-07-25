@@ -20,10 +20,19 @@ function mockFs(tree, links = {}) {
     _copyFileCalls: [],
     _chmodCalls: [],
     _symlinkCalls: [],
+    _symlinkTypes: [],
     async lstat(p) {
       const np = normalize(p);
       if (linkStore.has(np)) return { isDirectory: () => false, isSymbolicLink: () => true };
       if (store.has(np)) return { isDirectory: () => np.endsWith('/'), isSymbolicLink: () => false };
+      const e = new Error('ENOENT'); e.code = 'ENOENT'; throw e;
+    },
+    // stat follows symlinks; a stored trailing-slash key (or its slash-less form) is
+    // a directory. Used by linkType to pick the Windows link type.
+    async stat(p) {
+      const np = normalize(p).replace(/\/$/, '');
+      if (store.has(np + '/')) return { isDirectory: () => true, isSymbolicLink: () => false };
+      if (store.has(np)) return { isDirectory: () => false, isSymbolicLink: () => false };
       const e = new Error('ENOENT'); e.code = 'ENOENT'; throw e;
     },
     async readdir(p) { const np = normalize(p); return [...new Set([...store.keys(), ...linkStore.keys()])].filter(k => k.startsWith(np)).map(k => k.slice(np.length).split('/')[0].replace(/\/$/, '')).filter(Boolean); },
@@ -33,7 +42,7 @@ function mockFs(tree, links = {}) {
     async readFile(p) { const np = normalize(p); if (!store.has(np)) { const e = new Error('ENOENT'); e.code = 'ENOENT'; throw e; } return store.get(np); },
     async chmod(p, m) { this._chmodCalls.push([normalize(p), m]); },
     async readlink(p) { const np = normalize(p); if (!linkStore.has(np)) { const e = new Error('EINVAL'); e.code = 'EINVAL'; throw e; } return linkStore.get(np); },
-    async symlink(target, p) { const np = normalize(p); this._symlinkCalls.push([normalize(target), np]); linkStore.set(np, normalize(target)); },
+    async symlink(target, p, type) { const np = normalize(p); this._symlinkCalls.push([normalize(target), np]); this._symlinkTypes.push(type); linkStore.set(np, normalize(target)); },
     async unlink(p) { const np = normalize(p); linkStore.delete(np); store.delete(np); },
     _dump: () => Object.fromEntries(store),
     _links: () => Object.fromEntries(linkStore),
@@ -180,4 +189,25 @@ test('copyTree with skipSymlinks drops symlink entries entirely', async () => {
   expect(fs._dump()['/dst/real.txt']).toBe('data');
   expect(fs._symlinkCalls).toEqual([]);
   expect(actions.find(a => a.action === 'link')).toBeUndefined();
+});
+
+test('copyTree passes the Windows symlink type for a directory link', async () => {
+  // Arrange — a symlink whose target is a directory. On Windows, fs.symlink MUST
+  // receive type='dir' or the link is mis-typed as a broken file link (the target
+  // may not exist yet at restore time). The canonical target /canon/ is a dir.
+  const fs = mockFs({ '/canon/': null }, { '/src/link': '/canon' });
+  // Act
+  await copyTree('/src/link', '/dst/link', { fs, platform: 'win32' });
+  // Assert — fs.symlink received type='dir' (resolved target is a directory).
+  expect(fs._symlinkTypes).toEqual(['dir']);
+});
+
+test('copyTree omits the symlink type on POSIX (undefined)', async () => {
+  // Arrange — same directory link; on POSIX the type arg is ignored, so linkType
+  // returns undefined and fs.symlink is called without a type.
+  const fs = mockFs({ '/canon/': null }, { '/src/link': '/canon' });
+  // Act
+  await copyTree('/src/link', '/dst/link', { fs, platform: 'linux' });
+  // Assert — type is undefined on POSIX.
+  expect(fs._symlinkTypes).toEqual([undefined]);
 });

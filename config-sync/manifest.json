@@ -1,6 +1,11 @@
 {
   "version": 1,
   "targets": [
+    { "src": "home/.agents/skills",            "dest": "~/.agents/skills",            "type": "dir", "scan": false },
+    { "src": "home/.agents/skills-disabled",   "dest": "~/.agents/skills-disabled",   "type": "dir", "scan": false },
+    { "src": "home/.agents/.skill-lock.json",  "dest": "~/.agents/.skill-lock.json",  "type": "file" },
+    { "src": "home/.agents/plugins",           "dest": "~/.agents/plugins",           "type": "dir" },
+
     { "src": "home/.claude/statusline.js",                  "dest": "~/.claude/statusline.js",                   "type": "file" },
     { "src": "home/.claude/hooks",                           "dest": "~/.claude/hooks",                           "type": "dir", "scan": false },
     { "src": "home/.claude/skills",                          "dest": "~/.claude/skills",                          "type": "dir", "scan": false, "skipSymlinks": true },
@@ -23,11 +28,6 @@
     { "src": "home/.codex/skills",           "dest": "~/.codex/skills",           "type": "dir", "scan": false, "skipSymlinks": true },
     { "src": "home/.codex/skills.links.json", "dest": "~/.codex/skills",          "type": "symlinks", "linkSource": "~/.agents/skills", "scan": false },
     { "src": "home/.codex/rules",            "dest": "~/.codex/rules",            "type": "dir", "scan": false },
-    { "src": "templates/codex/config.toml.tmpl", "dest": "~/.codex/config.toml",  "type": "template", "mode": "0600" },
-
-    { "src": "home/.agents/skills",            "dest": "~/.agents/skills",            "type": "dir", "scan": false },
-    { "src": "home/.agents/skills-disabled",   "dest": "~/.agents/skills-disabled",   "type": "dir", "scan": false },
-    { "src": "home/.agents/.skill-lock.json",  "dest": "~/.agents/.skill-lock.json",  "type": "file" },
-    { "src": "home/.agents/plugins",           "dest": "~/.agents/plugins",           "type": "dir" }
+    { "src": "templates/codex/config.toml.tmpl", "dest": "~/.codex/config.toml",  "type": "template", "mode": "0600" }
   ]
 }

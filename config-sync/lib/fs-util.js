@@ -1,7 +1,20 @@
-import { resolve, dirname } from 'node:path';
+import { resolve, dirname, isAbsolute } from 'node:path';
 
 async function defaultFs() { return (await import('node:fs/promises')); }
 async function exists(p, fs) { try { await fs.lstat(p); return true; } catch { return false; } }
+
+// Windows-only: fs.symlink defaults the link `type` to 'file', which mis-types a
+// directory link as a broken file link when the target is absent at create time.
+// Resolve the link target and stat it so we pass 'dir'/'file' explicitly. POSIX
+// ignores `type`, so we return undefined there. `platform` defaults to
+// process.platform (passing opts.platform=undefined still triggers the default).
+// Best-effort: if the target can't be stat'd (e.g. not yet restored), fall back
+// to 'file' — restored later by the manifest-order guarantee (agents/skills first).
+export async function linkType(fs, target, platform = process.platform) {
+  if (platform !== 'win32') return undefined;
+  try { return (await fs.stat(target)).isDirectory() ? 'dir' : 'file'; }
+  catch { return 'file'; }
+}
 
 export async function copyTree(srcAbs, destAbs, opts = {}) {
   const fs = opts.fs || await defaultFs();
@@ -26,7 +39,10 @@ export async function copyTree(srcAbs, destAbs, opts = {}) {
     if (opts.dryRun) { log('link', destAbs); actions.push({ action: 'link', dest: destAbs }); return actions; }
     await fs.mkdir(dirname(destAbs), { recursive: true });
     if (destExists) { try { await fs.unlink(destAbs); } catch {} }
-    await fs.symlink(target, destAbs);
+    // Resolve relative link targets against the source's dir so stat works, then
+    // pass the Windows link type (dir/file) — see linkType.
+    const resolvedTarget = isAbsolute(target) ? target : resolve(dirname(srcAbs), target);
+    await fs.symlink(target, destAbs, await linkType(fs, resolvedTarget, opts.platform));
     log('link', destAbs);
     actions.push({ action: 'link', dest: destAbs });
     return actions;

@@ -78,17 +78,20 @@ test('runInstall --dry-run writes nothing', async () => {
 // inject an in-memory fs so they run cross-platform without the Windows
 // SeCreateSymbolicLinkPrivilege requirement that real-fs symlink tests need.
 const normPath = p => String(p).replace(/\\/g, '/').replace(/^[A-Za-z]:/, '');
-function mockFs(files) {
+function mockFs(files, dirs = []) {
   const store = new Map();
   for (const [k, v] of Object.entries(files)) store.set(normPath(k), v);
+  const dirSet = new Set(dirs.map(normPath));
   const links = new Map();
   return {
     _links: links,
+    _symlinkTypes: [],
     async readFile(p) { const np = normPath(p); if (store.has(np)) return store.get(np); const e = new Error('ENOENT'); e.code = 'ENOENT'; throw e; },
     async writeFile(p, c) { store.set(normPath(p), String(c)); },
-    async lstat(p) { const np = normPath(p); if (links.has(np)) return { isDirectory: () => false, isSymbolicLink: () => true }; if (store.has(np)) return { isDirectory: () => false, isSymbolicLink: () => false }; const e = new Error('ENOENT'); e.code = 'ENOENT'; throw e; },
+    async lstat(p) { const np = normPath(p); if (links.has(np)) return { isDirectory: () => false, isSymbolicLink: () => true }; if (dirSet.has(np)) return { isDirectory: () => true, isSymbolicLink: () => false }; if (store.has(np)) return { isDirectory: () => false, isSymbolicLink: () => false }; const e = new Error('ENOENT'); e.code = 'ENOENT'; throw e; },
+    async stat(p) { const np = normPath(p); if (dirSet.has(np)) return { isDirectory: () => true }; if (store.has(np)) return { isDirectory: () => false }; const e = new Error('ENOENT'); e.code = 'ENOENT'; throw e; },
     async mkdir() {},
-    async symlink(target, p) { links.set(normPath(p), normPath(target)); },
+    async symlink(target, p, type) { links.set(normPath(p), normPath(target)); this._symlinkTypes.push(type); },
     async unlink(p) { const np = normPath(p); links.delete(np); store.delete(np); },
   };
 }
@@ -137,4 +140,24 @@ test('runInstall --dry-run logs symlinks but creates none', async () => {
   await runInstall({ argv: ['--dry-run'], cwd: root, home, envFile: `${root}/.env.local`, fs, stdout: () => {} });
   // Assert — zero links materialized.
   expect(fs._links.size).toBe(0);
+});
+
+test('runInstall passes the Windows symlink type when recreating directory links', async () => {
+  // Arrange — sidecar with one link whose canonical target is a restored directory.
+  // On Windows the recreated link MUST carry type='dir' or it is mis-typed as a
+  // broken file link. The target dir is modeled via the mock's `dirs` set.
+  const root = '/repo';
+  const home = '/h';
+  const manifest = { version: 1, targets: [
+    { src: 'home/.claude/skills.links.json', dest: '~/.claude/skills', type: 'symlinks', linkSource: '~/.agents/skills' },
+  ]};
+  const fs = mockFs({
+    [`${root}/manifest.json`]: JSON.stringify(manifest),
+    [`${root}/.env.local`]: '',
+    [`${root}/home/.claude/skills.links.json`]: JSON.stringify({ 'caveman': '.agents/skills/caveman' }),
+  }, [`${home}/.agents/skills/caveman`]); // canonical target exists as a directory
+  // Act
+  await runInstall({ argv: [], cwd: root, home, envFile: `${root}/.env.local`, fs, stdout: () => {}, platform: 'win32' });
+  // Assert — fs.symlink received type='dir'.
+  expect(fs._symlinkTypes).toEqual(['dir']);
 });
