@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `x-twitter-scraper` plugin - Xquik X/Twitter data workflow planning for REST API setup, MCP setup, SDKs, webhooks, exports, monitors, and confirmation-gated actions
 - `project-boilerplate` plugin — interactive AI tooling scaffolder that generates CLAUDE.md, rules, skill/agent catalogs, and plugin settings tailored to any project stack
 
 ### Changed

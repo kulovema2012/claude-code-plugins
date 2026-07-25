@@ -20,6 +20,11 @@
       "name": "project-boilerplate",
       "source": "./project-boilerplate",
       "description": "Interactive AI tooling scaffolder — generates CLAUDE.md, rules, skill/agent catalogs, and plugin settings tailored to your project's stack."
+    },
+    {
+      "name": "x-twitter-scraper",
+      "source": "./x-twitter-scraper",
+      "description": "Plan Xquik X/Twitter data workflows with REST API setup, MCP setup, SDKs, webhooks, exports, monitors, and confirmation-gated actions."
     }
   ]
 }
